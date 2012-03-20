@@ -24,8 +24,8 @@
   },
   "timer": {
     "days": [1,2,3,4,5],
-    "hour": 23,
-    "minute": 8,
+    "hour": 17,
+    "minute": 0,
     "tick": 1000
   }
 }
