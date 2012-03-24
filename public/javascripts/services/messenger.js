@@ -1,3 +1,6 @@
-define(function () {
-  return new Faye.Client(window.location.origin + '/faye');
-});
+define(
+  ['json!/config.json'],
+  function (config) {
+    return new Faye.Client(window.location.protocol + '//' + config.server.host + ':' + config.messenger.port);
+  }
+);

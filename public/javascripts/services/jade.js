@@ -1,3 +1,6 @@
-define(['lib/jade'], function () {
-  return window.jade;
-});
+define(
+  ['lib/jade'],
+  function () {
+    return window.jade;
+  }
+);

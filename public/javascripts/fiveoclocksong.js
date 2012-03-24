@@ -2,7 +2,11 @@
 
   // configure require.js
   require.config({
-    baseUrl: '/javascripts'
+    baseUrl: '/javascripts',
+    paths: {
+      json: 'lib/requirejs-plugins/json',
+      text: 'lib/requirejs/text'
+    }
   });
   
   // create a weld app

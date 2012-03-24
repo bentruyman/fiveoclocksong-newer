@@ -37,8 +37,8 @@ html
           .chatroom-messages
           input.chatroom-input
       #modal-manager
-    script(src="/javascripts/lib/require-1.0.4.js")
+    script(src="/javascripts/lib/requirejs/require.js")
     script(src="/javascripts/lib/weld.min.js")
     script(src="/javascripts/fiveoclocksong.js")
     script(src="/javascripts/lib/jquery-1.7.1.min.js")
-    script(src="/faye.js")
+    script(src="//" + config.server.host + ":" + config.messenger.port + "/" + config.messenger.mount + ".js")

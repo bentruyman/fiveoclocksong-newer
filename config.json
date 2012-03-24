@@ -7,12 +7,16 @@
     "name": "fiveoclocksong"
   },
   "messenger": {
-    "mount": "/faye"
+    "mount": "faye",
+    "port": 8000
   },
   "rdio": {
     "key": "rbz4ghf2kekn8h6pyeftgure",
     "secret": "DbCSQXgrc5",
     "playlistId": "p111617"
+  },
+  "seaport": {
+    "port": 9090
   },
   "security": {
     "salt": "mOYjKEw8LXPx5GLI8/wdNpWAW++ZDTxXaNJ5Q8cK",
@@ -20,7 +24,8 @@
   },
   "server": {
     "host": "localhost",
-    "port": 3000
+    "port": 3000,
+    "workers": 4
   },
   "timer": {
     "days": [1,2,3,4,5],

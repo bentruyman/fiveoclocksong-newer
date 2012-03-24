@@ -1,5 +1,5 @@
 define(
-  ['services/messenger'], ['services/user'],
+  ['services/messenger', 'services/user'],
   function (messenger, userService) {
     return {};
   }
