@@ -3,22 +3,31 @@ define(
   function ($, userService) {
     return {
       creator: function (sandbox) {
-        var subscriptions = [],
+        var READY_CLASS = 'ready',
+            subscriptions = [],
             container;
         
         function update() {
           userService.getCurrentUser().then(function (user) {
             if (user === null) {
-              $(container).text('NOT LOGGED IN');
+              logout();
             } else {
-              $(container).text('UR LOGGED IN');
+              login(user);
             }
           });
         }
         
+        function login(user) {
+          $(container).addClass(READY_CLASS);
+        }
+        
+        function logout() {
+          $(container).removeClass(READY_CLASS);
+        }
+        
         return {
           create: function () {
-            container = $('.wrapper', document.getElementById(sandbox.getOption('container')));
+            container = document.getElementById(sandbox.getOption('container'));
             
             // watch for user login/logout messages
             subscriptions.push(

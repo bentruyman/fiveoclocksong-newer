@@ -23,12 +23,16 @@ services.forEach(function (service) {
   var air = airport(ports),
       port;
   
-  port = air(function (remote, conn) {
-    _.extend(this, require('./lib/services/' + service));
+  port = air(function () {
+    this.service = require('./lib/services/' + service);
   });
   
   port.listen(service);
 });
+
+// start the poll manager
+var pollManager = require('./lib/web/poll-manager');
+pollManager.init();
 
 // spin up the web servers
 var master = http.Server().listen(config.server.port),
@@ -37,7 +41,3 @@ var master = http.Server().listen(config.server.port),
       __dirname + '/lib/web/server',
       { numWorkers: config.server.workers }
     );
-
-process.on('SIGUSR2', function () {
-  srv.reload();
-});
