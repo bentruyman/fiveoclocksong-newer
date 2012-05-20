@@ -3,18 +3,18 @@ var path       = require('path'),
     stylus     = require('stylus'),
     RedisStore = require('connect-redis')(express);
 
-var config      = require('../../config'),
-    utils       = require('../web/utils'),
-    PollTimer   = require('./poll-timer');
+var config          = require('../config'),
+    pollTimer       = require('./poll-timer'),
+    serviceRegistry = require('../core/service-registry');
 
-var PUBLIC_DIR = path.normalize(__dirname + '../../../public'),
-    VIEWS_DIR  = path.normalize(__dirname + '../../../views');
+var PUBLIC_DIR = path.resolve(__dirname, '../public'),
+    VIEWS_DIR  = path.resolve(__dirname, '../views');
 
 var app = module.exports = express.createServer();
 
-utils.getDeferredServices(['messenger', 'poll', 'user']).spread(function (messenger, pollService, userService) {
+serviceRegistry.get(['messenger', 'poll', 'user'], function (messenger, pollService, userService) {
   // configure the express app
-  app.configure(function(){
+  app.configure(function () {
     app.set('views', VIEWS_DIR);
     app.set('view engine', 'jade');
     
@@ -46,13 +46,13 @@ utils.getDeferredServices(['messenger', 'poll', 'user']).spread(function (messen
   });
   
   // start the poll timer
-  PollTimer.start();
+  pollTimer.start();
   
   // publish poll state changes
-  PollTimer.on('pollstart', function () {
+  pollTimer.on('pollstart', function () {
     messenger.publish('/poll/start', true);
   });
-  PollTimer.on('pollstop', function () {
+  pollTimer.on('pollstop', function () {
     messenger.publish('/poll/stop', true);
   });
   
@@ -79,7 +79,7 @@ utils.getDeferredServices(['messenger', 'poll', 'user']).spread(function (messen
       } else {
         res.json({
           poll: poll,
-          state: PollTimer.getState()
+          state: pollTimer.getState()
         });
       }
     });

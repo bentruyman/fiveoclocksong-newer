@@ -2,10 +2,6 @@
   "app": {
     "tracksPerPoll": 5
   },
-  "database": {
-    "url": "http://admin:admin@localhost:5984",
-    "name": "fiveoclocksong"
-  },
   "messenger": {
     "mount": "faye",
     "port": 8000
@@ -14,6 +10,10 @@
     "key": "rbz4ghf2kekn8h6pyeftgure",
     "secret": "DbCSQXgrc5",
     "playlistId": "p111617"
+  },
+  "redis": {
+    "host": "127.0.0.1",
+    "port": 6379
   },
   "seaport": {
     "port": 9090

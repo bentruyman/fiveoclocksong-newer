@@ -2,42 +2,19 @@
 // FIVEOCLOCKSONG
 ////////////////////////////////////////////////////////////////////////////////
 
-var http = require('http');
+// initialize the service registry
+var serviceRegistry = require('./core/service-registry');
+serviceRegistry.init();
 
-var airport = require('airport'),
-    seaport = require('seaport'),
-    up = require('up'),
-    _ = require('underscore');
-
-var config = require('./config');
-
-// create seaport server
-var seaportServer = seaport.createServer();
-seaportServer.listen(config.seaport.port);
-
-// create and bind airport services
-var ports = seaport.connect(config.seaport.port),
-    services = ['messenger', 'poll', 'rdio', 'user'];
-
-services.forEach(function (service) {
-  var air = airport(ports),
-      port;
-  
-  port = air(function () {
-    this.service = require('./lib/services/' + service);
-  });
-  
-  port.listen(service);
+// register the shared services
+['messenger', 'poll', 'rdio', 'user'].forEach(function (name) {
+  serviceRegistry.set(name, require('./shared/' + name));
 });
 
-// start the poll manager
-var pollManager = require('./lib/web/poll-manager');
+// initialize the poll manager
+var pollManager = require('./core/poll-manager');
 pollManager.init();
 
 // spin up the web servers
-var master = http.Server().listen(config.server.port),
-    srv = up(
-      master,
-      __dirname + '/lib/web/server',
-      { numWorkers: config.server.workers }
-    );
+var loadBalancer = require('./core/load-balancer');
+loadBalancer.start();
