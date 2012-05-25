@@ -5,21 +5,24 @@ var http   = require('http'),
 
 var srv;
 
-var loadBalancer = module.exports = {
-  master: http.Server(),
-  start: function () {
-    loadBalancer.master.listen(config.port);
-    
-    srv = up(
-      loadBalancer.master,
-      path.resolve(__dirname, '../app/server'),
-      { numWorkers: config.workers }
-    );
-  },
-  stop: function () {
-    loadBalancer.master.close();
-  },
-  reload: function () {
-    srv.reload();
-  }
+var LoadBalancer = module.exports = function () {
+  this.master = http.Server();
+};
+
+LoadBalancer.prototype.start = function () {
+  this.master.listen(config.port);
+  
+  this._srv = up(
+    this.master,
+    path.resolve(__dirname, '../server'),
+    { numWorkers: config.workers }
+  );
+};
+
+LoadBalancer.prototype.stop = function () {
+  this.master.close();
+};
+
+LoadBalancer.prototype.reload = function () {
+  this._srv.reload();
 };

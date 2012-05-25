@@ -3,8 +3,7 @@
     "tracksPerPoll": 5
   },
   "messenger": {
-    "mount": "faye",
-    "port": 8000
+    "mount": "faye"
   },
   "rdio": {
     "key": "rbz4ghf2kekn8h6pyeftgure",

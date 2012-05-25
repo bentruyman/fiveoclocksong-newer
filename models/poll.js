@@ -2,7 +2,7 @@ var Q = require('q'),
     check = require('validator').check;
 
 var config = require('../config'),
-    db = require('../app/db'),
+    db = require('../lib/db'),
     client = db.client;
 
 var PREFIX = 'polls',
