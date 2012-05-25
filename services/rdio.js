@@ -1,8 +1,8 @@
 var _      = require('underscore'),
     OAuth  = require('oauth').OAuth,
-    Q      = require('q'),
-    Track  = require('../domain/track'),
-    config = require('../../config');
+    Q      = require('q');
+
+var config = require('../config');
 
 var oa = new OAuth(
   'http://api.rdio.com/oauth/request_token',
@@ -29,7 +29,11 @@ var Rdio = module.exports = {
         domain: config.server.host
       },
       function (err, data, resp) {
-        callback(err, JSON.parse(data).result);
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, JSON.parse(data).result);
+        }
       }
     );
   },
@@ -49,10 +53,10 @@ var Rdio = module.exports = {
         rawTracks = JSON.parse(data).result[playlistId].tracks;
         
         tracks = rawTracks.map(function (track) {
-          return new Track(track);
+          return track.key;
         });
         
-        callback(err, tracks);
+        callback(null, tracks);
       }
     );
   }
