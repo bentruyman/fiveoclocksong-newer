@@ -156,6 +156,9 @@ Poll.createDateString = function (date) {
   // pad month to two digits
   month = (month.length === 2) ? month : '0' + month;
   
+  // pad day to two digits
+  day = (day.length === 2) ? day : '0' + day;
+  
   return '' + year + month + day;
 };
 
