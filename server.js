@@ -4,6 +4,8 @@ var path       = require('path'),
     RedisStore = require('connect-redis')(express);
 
 var config    = require('./config'),
+    log       = require('./core/log'),
+    logger    = log.getLogger('web server'),
     Messenger = require('./lib/messenger'),
     PollTimer = require('./lib/poll-timer');
 
@@ -22,8 +24,12 @@ messenger.attach(app);
 
 // configure the express app
 app.configure(function () {
+  logger.info('configuring');
+  
   app.set('views', VIEWS_DIR);
   app.set('view engine', 'jade');
+  
+  app.use(log.connectLogger(logger, { level: log.levels.DEBUG }));
   
   app.use(express.bodyParser());
   app.use(express.methodOverride());
@@ -57,9 +63,11 @@ pollTimer.start();
 
 // publish poll state changes
 pollTimer.on('pollstart', function () {
+  logger.info('poll started');
   messenger.publish('/poll/start', true);
 });
 pollTimer.on('pollstop', function () {
+  logger.info('poll stopped');
   messenger.publish('/poll/stop', true);
 });
 

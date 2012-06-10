@@ -5,6 +5,7 @@ var Q = require('q'),
 
 var config = require('../config'),
     db = require('../lib/db'),
+    logger = require('../core/log').getLogger('user model'),
     client = db.client;
 
 var PREFIX = 'users';
@@ -30,10 +31,14 @@ User.prototype.save = function (callback) {
     .set(this._namespace + ':email', this.email)
     .set(this._namespace + ':password', this.password);
   
+  logger.debug('saving user: ' + this.name);
+  
   multi.exec(function (err, replies) {
     if (err) {
+      logger.error('failed to save user: ' + this.name);
       callback(err);
     } else {
+      logger.debug('successfully saved user: ' + this.name);
       callback(null);
     }
   });
@@ -43,6 +48,8 @@ User.prototype.remove = function (callback) {
   var self = this,
       multi = client.multi();
     
+    logger.debug('removing user: ' + this.name);
+    
     multi
       .del(namespace + ':email')
       .del(namespace + ':password');
@@ -51,6 +58,7 @@ User.prototype.remove = function (callback) {
       var promises;
       
       if (err) {
+        logger.error('failed to remove user: ' + this.name);
         callback(err);
       } else {
         promises = [];
@@ -67,14 +75,17 @@ User.prototype.remove = function (callback) {
         function () {
           multi.exec(function (err, replies) {
             if (err) {
+              logger.error('failed to remove user: ' + this.name);
               callback(err);
             } else {
+              logger.debug('successfully removed user: ' + this.name);
               callback();
             }
           });
         },
         // failed to remove all achievements
         function (err) {
+          logger.error('failed to remove user: ' + this.name);
           callback(err);
         }
       );
@@ -92,23 +103,31 @@ User.prototype.getAchievements = function (callback) {
 };
 
 User.prototype.addAchievement = function (name, callback) {
+  logger.debug('adding achievement "' + name + '" for user: ' + this.name);
+  
   client.sadd(this._namespace + ':achievements', name, function (err, resp) {
     if (err) {
+      logger.error('failed to add achievement "' + name + '" for user: ' + this.name);
       callback(err);
     } else {
+      logger.debug('successfully added achievement "' + name + '" for user: ' + this.name);
       callback(null);
     }
   });
 };
 
 User.prototype.removeAchievement = function (name, callback) {
+  logger.debug('removing achievement "' + name + '" for user: ' + this.name);
+  
   client.multi()
     .srem(this._namespace + ':achievements', name)
     .hdel(this._namespace + ':achievementData', name)
     .exec(function (err, replies) {
       if (err) {
+        logger.error('failed to remove achievement "' + name + '" for user: ' + this.name);
         callback(err);
       } else {
+        logger.debug('successfully removed achievement "' + name + '" for user: ' + this.name);
         callback();
       }
     });
@@ -149,14 +168,18 @@ User.create = function (data) {
 User.findByName = function (name, callback) {
   var namespace = PREFIX + ':' + name;
   
+  logger.debug('finding user: ' + this.name);
+  
   client.multi()
     .get(namespace + ':email')
     .get(namespace + ':password')
     .smembers(namespace + ':achievements')
     .exec(function (err, replies) {
       if (err) {
+        logger.error('failed to find user: ' + this.name);
         callback(err, null);
       } else {
+        logger.debug('found user: ' + name);
         callback(null, User.create({
           name: name,
           email: replies[0],

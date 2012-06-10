@@ -1,6 +1,7 @@
 var EventEmitter = require('events').EventEmitter;
 
 var config = require('../config'),
+    logger = require('./log').getLogger('poll manager'),
     PollTimer = require('../lib/poll-timer'),
     pollService = require('../services/poll');
 

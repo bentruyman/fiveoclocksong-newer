@@ -2,7 +2,8 @@ var _      = require('underscore'),
     OAuth  = require('oauth').OAuth,
     Q      = require('q');
 
-var config = require('../config');
+var config = require('../config'),
+    logger = require('../core/log').getLogger('rdio service');
 
 var oa = new OAuth(
   'http://api.rdio.com/oauth/request_token',
@@ -24,20 +25,29 @@ function execute(params, callback) {
 
 var Rdio = module.exports = {
   getPlaybackToken: function (callback) {
+    var result;
+    
+    logger.debug('retrieving playback token');
+    
     execute({
         method: 'getPlaybackToken',
         domain: config.server.host
       },
       function (err, data, resp) {
         if (err) {
+          logger.debug('failed to retrieve playback token');
           callback(err, null);
         } else {
-          callback(null, JSON.parse(data).result);
+          result = JSON.parse(data).result;
+          logger.debug('successfully retrieved playback token: ' + result);
+          callback(null, result);
         }
       }
     );
   },
   getTracksFromPlaylist: function (playlistId, callback) {
+    logger.debug('retrieving tracks in playlist: ' + playlistId);
+    
     execute({
         method: 'get',
         keys  : playlistId,
@@ -47,6 +57,7 @@ var Rdio = module.exports = {
         var tracks, rawTracks;
         
         if (err) {
+          logger.debug('failed to retrieve playlist');
           return callback(err);
         }
         
@@ -55,6 +66,8 @@ var Rdio = module.exports = {
         tracks = rawTracks.map(function (track) {
           return track.key;
         });
+        
+        logger.debug('successfully found tracks: ' + tracks.toString());
         
         callback(null, tracks);
       }

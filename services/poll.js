@@ -2,13 +2,18 @@ var Q = require('q');
 
 var config = require('../config'),
     db = require('../lib/db'),
+    logger = require('../core/log').getLogger('poll service'),
     rdio = require('./rdio'),
     Poll = require('../models/poll');
 
 var PollService = module.exports = {
   // creates and saves a new poll to the database
   createPoll: function (date, callback) {
-    var poll = Poll.create({ date: Poll.createDateString(date) });
+    var dateString = Poll.createDateString(date);
+    
+    logger.info('creating poll for ' + dateString);
+    
+    var poll = Poll.create({ date: dateString });
     
     // empty list of tracks to be populated
     var pollTracks = [],
@@ -32,10 +37,12 @@ var PollService = module.exports = {
       Q.all(promises).then(
         // successfully added all tracks
         function () {
+          logger.info('successfully created poll');
           callback(null, poll);
         },
         // failed to add all tracks
         function (err) {
+          logger.info('failed to create poll');
           callback(err, null);
         }
       );
@@ -43,7 +50,11 @@ var PollService = module.exports = {
   },
   // retrieves a poll based on the specified date array
   getPoll: function (date, callback) {
-    Poll.findByDate(Poll.createDateString(date), function (err, poll) {
+    var dateString = Poll.createDateString(date);
+    
+    logger.info('retrieving poll for ' + dateString);
+    
+    Poll.findByDate(dateString, function (err, poll) {
       if (err) {
         callback(err, null);
       } else {

@@ -3,6 +3,7 @@ var Q = require('q'),
 
 var config = require('../config'),
     db = require('../lib/db'),
+    logger = require('../core/log').getLogger('poll model'),
     client = db.client;
 
 var PREFIX = 'polls',
@@ -35,10 +36,14 @@ Poll.prototype.getTracks = function (callback) {
 };
 
 Poll.prototype.addTrack = function (trackId, callback) {
+  logger.debug('adding track "' + trackId + '" to poll: ' + this.date);
+  
   client.rpush(this._namespace + ':tracks', trackId, function (err, resp) {
     if (err) {
+      logger.debug('failed to add track "' + trackId + '" to poll: ' + this.date);
       callback(err);
     } else {
+      logger.debug('successfully added track "' + trackId + '" to poll: ' + this.date);
       callback(null);
     }
   });
@@ -92,6 +97,7 @@ Poll.prototype.getVotes = function (callback) {
 };
 
 Poll.prototype.incrementVote = function (trackIndex, username, callback) {
+  logger.debug('incremented vote: ' + username);
   client.hincrby(this._namespace + ':votes:' + trackIndex, username, 1, function (err, resp) {
     if (err) {
       callback(err);
@@ -102,6 +108,7 @@ Poll.prototype.incrementVote = function (trackIndex, username, callback) {
 };
 
 Poll.prototype.decrementVote = function (trackIndex, username, callback) {
+  logger.debug('decremented vote: ' + username);
   client.hincrby(this._namespace + ':votes:' + trackIndex, username, -1, function (err, resp) {
     if (err) {
       callback(err);
