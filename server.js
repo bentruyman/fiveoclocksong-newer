@@ -10,6 +10,7 @@ var config    = require('./config'),
     PollTimer = require('./lib/poll-timer');
 
 var messenger = new Messenger,
+    messengerClient = messenger.getClient(),
     pollTimer = new PollTimer,
     pollService = require('./services/poll'),
     userService = require('./services/user');
@@ -64,11 +65,11 @@ pollTimer.start();
 // publish poll state changes
 pollTimer.on('pollstart', function () {
   logger.info('poll started');
-  messenger.publish('/poll/start', true);
+  messengerClient.publish('/poll/start', true);
 });
 pollTimer.on('pollstop', function () {
   logger.info('poll stopped');
-  messenger.publish('/poll/stop', true);
+  messengerClient.publish('/poll/stop', true);
 });
 
 // define the routes
