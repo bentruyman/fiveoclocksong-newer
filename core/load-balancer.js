@@ -1,4 +1,5 @@
 var http   = require('http'),
+    os     = require('os'),
     path   = require('path'),
     up     = require('up'),
     config = require('../config').server;
@@ -15,7 +16,7 @@ LoadBalancer.prototype.start = function () {
   this._srv = up(
     this.master,
     path.resolve(__dirname, '../server'),
-    { numWorkers: config.workers }
+    { numWorkers: config.workers || os.cpus().length }
   );
 };
 
