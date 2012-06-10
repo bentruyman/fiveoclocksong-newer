@@ -1,7 +1,9 @@
 !!!5
 html
   head
+    meta(charset="utf-8")
     title= "fiveoclocksong"
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
     link(rel="stylesheet", href="/stylesheets/lib/base.min.css")
     link(rel="stylesheet", href="/stylesheets/fiveoclocksong.css")
   body
@@ -14,6 +16,8 @@ html
         nav#primary-navigation
           ul
             li
+              a(href="/login") login
+            li
               a(href="/achievements") achievements
             li
               a(href="/about") about
@@ -23,7 +27,7 @@ html
     footer#page-footer
       #site-info.wrapper.clearfix
         p#system
-          b powered by: 
+          b powered by:
           a(href="http://expressjs.com/") express
           = ", "
           a(href="http://faye.jcoglan.com/") faye
