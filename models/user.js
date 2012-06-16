@@ -4,9 +4,9 @@ var Q = require('q'),
     check = require('validator').check;
 
 var config = require('../config'),
-    db = require('../lib/db'),
     logger = require('../core/log').getLogger('user model'),
-    client = db.client;
+    Db = require('../lib/db'),
+    client = new Db;
 
 var PREFIX = 'users';
 
@@ -95,7 +95,7 @@ User.prototype.remove = function (callback) {
 User.prototype.getAchievements = function (callback) {
   client.smembers(this._namespace + ':achievements', function (err, achievements) {
     if (err) {
-      callback(err, null);
+      callback(err);
     } else {
       callback(null, achievements);
     }
@@ -136,7 +136,7 @@ User.prototype.removeAchievement = function (name, callback) {
 User.prototype.getAchievementData = function (name, callback) {
   client.hget(this._namespace + ':achievementdata', name, function (err, data) {
       if (err) {
-        callback(err, null);
+        callback(err);
       } else {
         callback(null, JSON.parse(data));
       }
@@ -177,7 +177,7 @@ User.findByName = function (name, callback) {
     .exec(function (err, replies) {
       if (err) {
         logger.error('failed to find user: ' + this.name);
-        callback(err, null);
+        callback(err);
       } else {
         logger.debug('found user: ' + name);
         callback(null, User.create({
@@ -200,7 +200,7 @@ User.verifyCredentials = function (name, password, callback) {
   
   client.get(namespace + ':password', function (err, realHash) {
     if (err) {
-      callback(err, null);
+      callback(err);
     } else {
       if (testHash === realHash) {
         callback(null, true);

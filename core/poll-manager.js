@@ -2,40 +2,43 @@ var EventEmitter = require('events').EventEmitter;
 
 var config = require('../config'),
     logger = require('./log').getLogger('poll manager'),
-    PollTimer = require('../lib/poll-timer'),
-    pollService = require('../services/poll');
+    pollService = require('../services/poll'),
+    Messenger = require('../lib/messenger');
+
+var messenger = new Messenger,
+    messengerClient = messenger.getClient();
 
 var PollManager = module.exports = function () {
-  this._pollTimer = new PollTimer;
+  var self = this;
   
-  this.init = function () {
-    var today = new Date;
-    
+  this.init = function (pollTimer) {
     // check to see if today's poll already exists
-    pollService.getPoll(today, function (err, poll) {
+    pollService.getTodaysPoll(function (err, poll) {
       // if the poll doesn't exist, create it
       if (poll.tracks.length === 0) {
-        pollService.createPoll(new Date, function (err, poll) {
+        pollService.createTodaysPoll(function (err, poll) {
           if (err) {
             throw err;
-          } else {
-            this._pollTimer.start();
           }
         });
       }
-      // otherwise, begin the ticker
-      else {
-        this._pollTimer.start();
-      }
     });
     
-    // when a new poll is to be started, create it
-    this._pollTimer.on('pollstart', function () {
-      pollService.createPoll(today, function (err, poll) {
-        if (err) {
-          throw err;
-        }
-      });
+    pollTimer.on('pollstart', this._onPollStart);
+    pollTimer.on('pollstop', this._onPollStop);
+  };
+  
+  this._onPollStart = function () {
+    pollService.createTodaysPoll(function (err, poll) {
+      if (err) {
+        throw err;
+      } else {
+        messengerClient.publish('/poll/start', poll);
+      }
     });
+  };
+  
+  this._onPollStop = function () {
+    messengerClient.publish('/poll/stop', true);
   };
 };

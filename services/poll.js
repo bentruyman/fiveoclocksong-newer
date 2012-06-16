@@ -1,7 +1,6 @@
 var Q = require('q');
 
 var config = require('../config'),
-    db = require('../lib/db'),
     logger = require('../core/log').getLogger('poll service'),
     rdio = require('./rdio'),
     Poll = require('../models/poll');
@@ -20,7 +19,7 @@ var PollService = module.exports = {
         promises = [];
     
     // retrieve and pick a set of random tracks
-    rdio.getTracksFromPlaylist(config.rdio.playlistId, function (err, tracks) {
+    rdio.getTrackIdsFromPlaylist(config.rdio.playlistId, function (err, tracks) {
       if (err) {
         return callback(err);
       }
@@ -43,7 +42,7 @@ var PollService = module.exports = {
         // failed to add all tracks
         function (err) {
           logger.info('failed to create poll');
-          callback(err, null);
+          callback(err);
         }
       );
     });
@@ -56,11 +55,11 @@ var PollService = module.exports = {
     
     Poll.findByDate(dateString, function (err, poll) {
       if (err) {
-        callback(err, null);
+        callback(err);
       } else {
         poll.getTracksAndVotes(function (err, tracks, votes) {
           if (err) {
-            callback(err, null);
+            callback(err);
           } else {
             callback(null, {
               tracks: tracks,
@@ -70,5 +69,11 @@ var PollService = module.exports = {
         });
       }
     });
+  },
+  getTodaysPoll: function (callback) {
+    PollService.getPoll(new Date, callback);
+  },
+  createTodaysPoll: function (callback) {
+    PollService.createPoll(new Date, callback);
   }
 };

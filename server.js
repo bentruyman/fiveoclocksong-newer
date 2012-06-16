@@ -6,12 +6,10 @@ var path       = require('path'),
 var config    = require('./config'),
     log       = require('./core/log'),
     logger    = log.getLogger('web server'),
-    Messenger = require('./lib/messenger'),
-    PollTimer = require('./lib/poll-timer');
+    Messenger = require('./lib/messenger');
 
 var messenger = new Messenger,
     messengerClient = messenger.getClient(),
-    pollTimer = new PollTimer,
     pollService = require('./services/poll'),
     userService = require('./services/user');
 
@@ -30,7 +28,7 @@ app.configure(function () {
   app.set('views', VIEWS_DIR);
   app.set('view engine', 'jade');
   
-  app.use(log.connectLogger(logger, { level: log.levels.DEBUG }));
+  // app.use(log.connectLogger(logger, { level: log.levels.DEBUG }));
   
   app.use(express.bodyParser());
   app.use(express.methodOverride());
@@ -59,19 +57,6 @@ app.configure(function () {
   app.use(express.static(PUBLIC_DIR));
 });
 
-// start the poll timer
-pollTimer.start();
-
-// publish poll state changes
-pollTimer.on('pollstart', function () {
-  logger.info('poll started');
-  messengerClient.publish('/poll/start', true);
-});
-pollTimer.on('pollstop', function () {
-  logger.info('poll stopped');
-  messengerClient.publish('/poll/stop', true);
-});
-
 // define the routes
 app.get('/', function (req, res) {
   res.render('index', {
@@ -89,13 +74,13 @@ app.get('/config.json', function (req, res) {
 
 // retrieves the current poll's object
 app.get('/poll.json', function (req, res) {
-  pollService.getPoll(new Date, function (err, poll) {
+  pollService.getTodaysPoll(function (err, poll) {
     if (err) {
       res.json(err);
     } else {
       res.json({
         poll: poll,
-        state: pollTimer.getState()
+        // state: app.pollManager.getState()
       });
     }
   });
