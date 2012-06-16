@@ -2,9 +2,10 @@ var Q = require('q'),
     check = require('validator').check;
 
 var config = require('../config'),
-    db = require('../lib/db'),
     logger = require('../core/log').getLogger('poll model'),
-    client = db.client;
+    Db = require('../lib/db'),
+    client = new Db,
+    rdio = require('../services/rdio');
 
 var PREFIX = 'polls',
     DELETED = '__deleted__';
@@ -25,25 +26,41 @@ Poll.prototype.remove = function (callback) {
   callback(null);
 };
 
-Poll.prototype.getTracks = function (callback) {
-  client.lrange(this._namespace + ':tracks', 0, -1,function (err, tracks) {
+Poll.prototype.getTrackIds = function (callback) {
+  logger.debug('retrieving track ids for poll: ' + this.date);
+  
+  client.lrange(this._namespace + ':tracks', 0, -1,function (err, ids) {
     if (err) {
-      callback(err, null);
+      callback(err);
     } else {
-      callback(null, tracks);
+      callback(null, ids);
     }
   });
 };
 
+Poll.prototype.getTracks = function (callback) {
+  this.getTrackIds(function (err, ids) {
+    rdio.getTrackData(ids, function (err, tracks) {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, tracks);
+      }
+    });
+  });
+};
+
 Poll.prototype.addTrack = function (trackId, callback) {
+  var self = this;
+  
   logger.debug('adding track "' + trackId + '" to poll: ' + this.date);
   
   client.rpush(this._namespace + ':tracks', trackId, function (err, resp) {
     if (err) {
-      logger.debug('failed to add track "' + trackId + '" to poll: ' + this.date);
+      logger.debug('failed to add track "' + trackId + '" to poll: ' + self.date);
       callback(err);
     } else {
-      logger.debug('successfully added track "' + trackId + '" to poll: ' + this.date);
+      logger.debug('successfully added track "' + trackId + '" to poll: ' + self.date);
       callback(null);
     }
   });
@@ -86,19 +103,55 @@ Poll.prototype.removeTrack = function (index, callback) {
   });
 };
 
-Poll.prototype.getVotes = function (callback) {
-  client.hgetall(this._namespace + ':votes', function (err, allVotes) {
+Poll.prototype.getTrackVotes = function (trackIndex, callback) {
+  try {
+    check(trackIndex).isInt();
+  } catch (e) {
+    return callback('Invalid arguments');
+  }
+  
+  client.hgetall(this._namespace + ':votes:' + trackIndex, function (err, votes) {
     if (err) {
-      callback(err, null);
+      callback(err);
     } else {
-      callback(null, allVotes);
+      callback(null, votes);
     }
   });
 };
 
-Poll.prototype.incrementVote = function (trackIndex, username, callback) {
-  logger.debug('incremented vote: ' + username);
-  client.hincrby(this._namespace + ':votes:' + trackIndex, username, 1, function (err, resp) {
+Poll.prototype.getAllVotes = function (callback) {
+  var self = this,
+      promises = [];
+  
+  this.getTrackIds(function (err, ids) {
+    ids.forEach(function (id, index) {
+      promises.push(Q.ncall(self.getTrackVotes, self, index));
+    });
+    
+    Q.all(promises)
+      .then(function (votes) {
+        callback(null, votes);
+      })
+      .fail(
+        function (err) {
+          callback(err);
+        }
+    );
+  });
+};
+
+Poll.prototype.incrementVote = function (username, trackIndex, amount, callback) {
+  logger.debug('incrementing vote by ' + amount + ' on track #' + trackIndex + ' for user "' + username + '"');
+  
+  try {
+    check(username).isAlphanumeric();
+    check(trackIndex).isInt();
+    check(amount).isInt();
+  } catch (e) {
+    return callback('Invalid arguments');
+  }
+  
+  client.hincrby(this._namespace + ':votes:' + trackIndex, username, amount, function (err, resp) {
     if (err) {
       callback(err);
     } else {
@@ -107,9 +160,18 @@ Poll.prototype.incrementVote = function (trackIndex, username, callback) {
   });
 };
 
-Poll.prototype.decrementVote = function (trackIndex, username, callback) {
-  logger.debug('decremented vote: ' + username);
-  client.hincrby(this._namespace + ':votes:' + trackIndex, username, -1, function (err, resp) {
+Poll.prototype.decrementVote = function (username, trackIndex, amount, callback) {
+  logger.debug('decrementing vote by ' + amount + ' on track #' + trackIndex + ' for user "' + username + '"');
+  
+  try {
+    check(username).isAlphanumeric();
+    check(trackIndex).isInt();
+    check(amount).isInt();
+  } catch (e) {
+    return callback('Invalid arguments');
+  }
+  
+  client.hincrby(this._namespace + ':votes:' + trackIndex, username, -amount, function (err, resp) {
     if (err) {
       callback(err);
     } else {
@@ -126,14 +188,13 @@ Poll.prototype.getTracksAndVotes = function (callback) {
   var promises = [];
   
   promises.push(Q.ncall(this.getTracks, this));
-  promises.push(Q.ncall(this.getVotes, this));
+  promises.push(Q.ncall(this.getAllVotes, this));
   
   Q.all(promises)
-    .spread(function (tracks, votes) {
-      callback(null, tracks, votes);
-    })
-    .fail(function (err) {
-      callback(err, null, null);
+    .then(function (results) {
+      callback(null, results[0], results[1]);
+    }, function (err) {
+      callback(err);
     });
 };
 
@@ -171,6 +232,10 @@ Poll.createDateString = function (date) {
 
 Poll.findByDate = function (date, callback) {
   callback(null, Poll.create({ date: date }));
+};
+
+Poll.findTodays = function (callback) {
+  Poll.findByDate(Poll.createDateString(new Date), callback);
 };
 
 Poll.removeByDate = function (date) {

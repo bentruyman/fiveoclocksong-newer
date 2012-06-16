@@ -6,7 +6,7 @@ var UserService = module.exports = {
     var user = User.create(data);
     user.save(function (err) {
       if (err) {
-        callback(err, null);
+        callback(err);
       } else {
         callback(null, user);
       }
@@ -15,7 +15,7 @@ var UserService = module.exports = {
   getUserByName: function (name, callback) {
     User.findByName(name, function (err, user) {
       if (err) {
-        callback(err, null);
+        callback(err);
       } else {
         callback(null, user);
       }

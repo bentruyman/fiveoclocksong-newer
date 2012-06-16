@@ -36,7 +36,7 @@ var Rdio = module.exports = {
       function (err, data, resp) {
         if (err) {
           logger.debug('failed to retrieve playback token');
-          callback(err, null);
+          callback(err);
         } else {
           result = JSON.parse(data).result;
           logger.debug('successfully retrieved playback token: ' + result);
@@ -45,8 +45,48 @@ var Rdio = module.exports = {
       }
     );
   },
-  getTracksFromPlaylist: function (playlistId, callback) {
-    logger.debug('retrieving tracks in playlist: ' + playlistId);
+  getTrackData: function (ids, callback) {
+    // if an array of IDs are passed in, join them into a string consumable by
+    // the Rdio API
+    if (Array.isArray(ids)) {
+      ids = ids.join(',');
+    }
+    
+    logger.debug('retrieving track data: ' + ids);
+    
+    execute({
+        method: 'get',
+        keys: ids,
+      }, function (err, data, response) {
+        var tracks, rawTracks;
+        
+        if (err) {
+          logger.debug('failed to retrieve track(s)');
+          return callback(err);
+        }
+        
+        rawTracks = JSON.parse(data).result;
+        
+        tracks = Object.keys(rawTracks).map(function (id) {
+          var track = rawTracks[id];
+          
+          return {
+            key:    track.key,
+            name:   track.name,
+            artist: track.artist,
+            album:  track.album,
+            icon:   track.icon
+          };
+        });
+        
+        logger.debug('successfully found data for tracks: ' + ids.toString());
+        
+        callback(null, tracks);
+      }
+    );
+  },
+  getTrackIdsFromPlaylist: function (playlistId, callback) {
+    logger.debug('retrieving track IDs in playlist: ' + playlistId);
     
     execute({
         method: 'get',
@@ -54,7 +94,7 @@ var Rdio = module.exports = {
         extras: 'tracks'
       },
       function (err, data, response) {
-        var tracks, rawTracks;
+        var ids, rawTracks;
         
         if (err) {
           logger.debug('failed to retrieve playlist');
@@ -63,13 +103,13 @@ var Rdio = module.exports = {
         
         rawTracks = JSON.parse(data).result[playlistId].tracks;
         
-        tracks = rawTracks.map(function (track) {
+        ids = rawTracks.map(function (track) {
           return track.key;
         });
         
-        logger.debug('successfully found tracks: ' + tracks.toString());
+        logger.debug('successfully found tracks: ' + ids.toString());
         
-        callback(null, tracks);
+        callback(null, ids);
       }
     );
   }

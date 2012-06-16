@@ -5,7 +5,7 @@ var http   = require('http'),
     config = require('../config').server,
     logger = require('./log').getLogger('load balancer');
 
-var srv;
+var upped = false;
 
 var LoadBalancer = module.exports = function () {
   logger.info('created server');
@@ -13,22 +13,34 @@ var LoadBalancer = module.exports = function () {
 };
 
 LoadBalancer.prototype.start = function () {
-  this.master.listen(config.port);
+  try {
+    this.master.listen(config.port);
+  } catch (e) {}
+  
+  if (upped === false) {
+    this._srv = up(
+      this.master,
+      path.resolve(__dirname, '../server'),
+      { numWorkers: config.workers || os.cpus().length }
+    );
+    upped = true;
+  }
   
   logger.info('started');
-  this._srv = up(
-    this.master,
-    path.resolve(__dirname, '../server'),
-    { numWorkers: config.workers || os.cpus().length }
-  );
 };
 
 LoadBalancer.prototype.stop = function () {
+  try {
+    this.master.close();
+  } catch (e) {}
+  
   logger.info('stopped');
-  this.master.close();
 };
 
 LoadBalancer.prototype.reload = function () {
+  try {
+    this._srv.reload();
+  } catch (e) {}
+  
   logger.info('reloaded');
-  this._srv.reload();
 };

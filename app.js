@@ -3,12 +3,18 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var LoadBalancer = require('./core/load-balancer'),
-    PollManager = require('./core/poll-manager');
+    PollManager = require('./core/poll-manager'),
+    PollTimer = require('./core/poll-timer'),
+    repl = require('./core/repl');
 
-var App = module.exports = {
+var app = {
   loadBalancer: new LoadBalancer,
-  pollManager: new PollManager
+  pollManager: new PollManager,
+  pollTimer: new PollTimer
 };
 
-App.pollManager.init();
-App.loadBalancer.start();
+app.pollTimer.start();
+app.pollManager.init(app.pollTimer);
+app.loadBalancer.start();
+
+repl.init();

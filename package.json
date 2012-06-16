@@ -12,7 +12,7 @@
     "airport": "0.1.0",
     "connect-redis": "1.2.0",
     "express": "2.5.8",
-    "faye": "0.7.1",
+    "faye": "0.8.2",
     "faye-redis": "0.1.0",
     "jade": "0.20.3",
     "log4js": "0.5.0",
