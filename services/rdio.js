@@ -3,7 +3,7 @@ var _      = require('underscore'),
     Q      = require('q');
 
 var config = require('../config'),
-    logger = require('../core/log').getLogger('rdio service');
+    logger = require('../shared/log').getLogger('rdio service');
 
 var oa = new OAuth(
   'http://api.rdio.com/oauth/request_token',

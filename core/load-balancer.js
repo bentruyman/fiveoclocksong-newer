@@ -1,46 +1,57 @@
-var http   = require('http'),
-    os     = require('os'),
-    path   = require('path'),
-    up     = require('up'),
-    config = require('../config').server,
-    logger = require('./log').getLogger('load balancer');
+var http = require('http'),
+    os   = require('os'),
+    path = require('path');
 
-var upped = false;
+var airport = require('airport'),
+    up = require('up');
 
-var LoadBalancer = module.exports = function () {
-  logger.info('created server');
-  this.master = http.Server();
-};
+var config = require('../config'),
+    logger = require('../shared/log').getLogger('load balancer');
 
-LoadBalancer.prototype.start = function () {
-  try {
-    this.master.listen(config.port);
-  } catch (e) {}
-  
-  if (upped === false) {
-    this._srv = up(
-      this.master,
-      path.resolve(__dirname, '../server'),
-      { numWorkers: config.workers || os.cpus().length }
-    );
-    upped = true;
-  }
-  
-  logger.info('started');
-};
+var air = airport(config.server.host, config.seaport.port),
+    upped = false;
 
-LoadBalancer.prototype.stop = function () {
-  try {
-    this.master.close();
-  } catch (e) {}
-  
-  logger.info('stopped');
-};
+var master = http.Server(),
+    srv;
+logger.info('created server');
 
-LoadBalancer.prototype.reload = function () {
-  try {
-    this._srv.reload();
-  } catch (e) {}
-  
-  logger.info('reloaded');
-};
+air(function (remote, conn) {
+  this.start = function () {
+    try {
+      master.listen(config.server.port);
+    } catch (e) {
+      logger.error(e);
+    }
+    
+    if (upped === false) {
+      srv = up(
+        master,
+        path.resolve(__dirname, '../server'),
+        { numWorkers: config.server.workers || os.cpus().length }
+      );
+      upped = true;
+    }
+    
+    logger.info('started');
+  };
+
+  this.stop = function () {
+    try {
+      master.close();
+    } catch (e) {
+      logger.error(e);
+    }
+    
+    logger.info('stopped');
+  };
+
+  this.reload = function () {
+    try {
+      srv.reload();
+    } catch (e) {
+      logger.error(e);
+    }
+    
+    logger.info('reloaded');
+  };
+}).listen('load balancer');

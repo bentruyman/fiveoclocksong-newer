@@ -4,7 +4,7 @@ var Q = require('q'),
     check = require('validator').check;
 
 var config = require('../config'),
-    logger = require('../core/log').getLogger('user model'),
+    logger = require('../shared/log').getLogger('user model'),
     Db = require('../lib/db'),
     client = new Db;
 
