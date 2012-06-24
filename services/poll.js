@@ -1,7 +1,7 @@
 var Q = require('q');
 
 var config = require('../config'),
-    logger = require('../core/log').getLogger('poll service'),
+    logger = require('../shared/log').getLogger('poll service'),
     rdio = require('./rdio'),
     Poll = require('../models/poll');
 

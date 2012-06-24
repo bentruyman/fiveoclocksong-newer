@@ -2,7 +2,7 @@ var Q = require('q'),
     check = require('validator').check;
 
 var config = require('../config'),
-    logger = require('../core/log').getLogger('poll model'),
+    logger = require('../shared/log').getLogger('poll model'),
     Db = require('../lib/db'),
     client = new Db,
     rdio = require('../services/rdio');
