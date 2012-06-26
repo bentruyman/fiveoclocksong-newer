@@ -70,9 +70,31 @@ var PollService = module.exports = {
       }
     });
   },
-  getTodaysPoll: function (callback) {
-    PollService.getPoll(new Date, callback);
-  },
+  // TODO: this method of caching seems kinda clunky, but it cuts down on the
+  // number of API calls to Rdio
+  getTodaysPoll: (function () {
+    var todaysDateString = null,
+        todaysPoll = null;
+    
+    return function (callback) {
+      var dateString = Poll.createDateString(new Date);
+      
+      if (dateString !== todaysDateString || todaysPoll === null) {
+        todaysDateString = dateString;
+        
+        PollService.getPoll(new Date, function (err, poll) {
+          if (err) {
+            callback(err);
+          } else {
+            todaysPoll = poll;
+            callback(null, todaysPoll);
+          }
+        });
+      } else {
+        callback(null, todaysPoll);
+      }
+    };
+  }()),
   createTodaysPoll: function (callback) {
     PollService.createPoll(new Date, callback);
   }
