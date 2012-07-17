@@ -4,7 +4,7 @@ var path       = require('path'),
     RedisStore = require('connect-redis')(express);
 
 var config    = require('./config'),
-    log       = require('./shared/log'),
+    log       = require('./core/log'),
     logger    = log.getLogger('web server'),
     Messenger = require('./lib/messenger');
 

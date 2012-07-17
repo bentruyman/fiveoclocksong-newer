@@ -2,24 +2,19 @@
 // FIVEOCLOCKSONG
 ////////////////////////////////////////////////////////////////////////////////
 
-var airport = require('airport'),
-    seaport = require('seaport');
-
-var config = require('./config'),
+var LoadBalancer = require('./core/load-balancer'),
+    PollManager = require('./core/poll-manager'),
+    PollTimer = require('./core/poll-timer'),
     repl = require('./core/repl');
 
-require('./core/load-balancer');
-require('./core/poll-manager');
-require('./core/repl');
+var app = {
+  loadBalancer: new LoadBalancer,
+  pollManager: new PollManager,
+  pollTimer: new PollTimer
+};
 
-seaport.createServer().listen(config.seaport.port);
+app.pollTimer.start();
+app.pollManager.init(app.pollTimer);
+app.loadBalancer.start();
 
-var air = airport(config.server.host, config.seaport.port);
-
-air.connect('load balancer', function (loadBalancer) {
-  loadBalancer.start();
-});
-
-air.connect('poll manager', function (pollManager) {
-  pollManager.init();
-});
+repl.init();
