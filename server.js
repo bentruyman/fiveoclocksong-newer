@@ -6,12 +6,16 @@ var path       = require('path'),
 var config    = require('./config'),
     log       = require('./core/log'),
     logger    = log.getLogger('web server'),
-    Messenger = require('./lib/messenger');
+    Messenger = require('./lib/messenger'),
+    PollTimer = require('./lib/poll-timer');
 
 var messenger = new Messenger,
     messengerClient = messenger.getClient(),
     pollService = require('./services/poll'),
     userService = require('./services/user');
+
+var pollTimer = new PollTimer;
+pollTimer.start();
 
 var PUBLIC_DIR = path.resolve(__dirname, './public'),
     VIEWS_DIR  = path.resolve(__dirname, './views');
@@ -80,7 +84,7 @@ app.get('/poll.json', function (req, res) {
     } else {
       res.json({
         poll: poll,
-        // state: app.pollManager.getState()
+        state: pollTimer.getState()
       });
     }
   });

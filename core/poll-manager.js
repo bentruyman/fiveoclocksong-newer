@@ -3,15 +3,20 @@ var EventEmitter = require('events').EventEmitter;
 var config = require('../config'),
     logger = require('./log').getLogger('poll manager'),
     pollService = require('../services/poll'),
-    Messenger = require('../lib/messenger');
+    Messenger = require('../lib/messenger'),
+    PollTimer = require('../lib/poll-timer');
 
 var messenger = new Messenger,
     messengerClient = messenger.getClient();
 
+var pollTimer = new PollTimer();
+
 var PollManager = module.exports = function () {
   var self = this;
   
-  this.init = function (pollTimer) {
+  pollTimer.start();
+  
+  this.init = function () {
     // check to see if today's poll already exists
     pollService.getTodaysPoll(function (err, poll) {
       // if the poll doesn't exist, create it

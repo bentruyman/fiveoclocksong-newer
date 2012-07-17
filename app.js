@@ -4,17 +4,11 @@
 
 var LoadBalancer = require('./core/load-balancer'),
     PollManager = require('./core/poll-manager'),
-    PollTimer = require('./core/poll-timer'),
     repl = require('./core/repl');
 
-var app = {
-  loadBalancer: new LoadBalancer,
-  pollManager: new PollManager,
-  pollTimer: new PollTimer
-};
+var loadBalancer = new LoadBalancer,
+    pollManager  = new PollManager;
 
-app.pollTimer.start();
-app.pollManager.init(app.pollTimer);
-app.loadBalancer.start();
-
+pollManager.init();
+loadBalancer.start();
 repl.init();
