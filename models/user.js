@@ -1,9 +1,8 @@
-var crypto = require('crypto');
-
 var Q = require('q'),
     check = require('validator').check;
 
 var config = require('../config'),
+    ldapClient = require('../lib/ldap').getClient(),
     logger = require('../core/log').getLogger('user model'),
     Db = require('../lib/db'),
     client = new Db;
@@ -12,30 +11,16 @@ var PREFIX = 'users';
 
 var User = module.exports = function (data) {
   check(data.name).isAlphanumeric();
-  check(data.email).isEmail();
-  check(data.password).len(4);
   
   this.name = data.name;
-  this.email = data.email;
-  this.password = data.password;
   this._namespace = PREFIX + ':' + this.name;
 };
 
-Object.defineProperty(User.prototype, 'password', {
-  get: createPasswordHash
-});
-
 // public methods
 User.prototype.save = function (callback) {
-  var multi = client.multi()
-    .set(this._namespace + ':email', this.email)
-    .set(this._namespace + ':password', this.password);
-  
-  logger.debug('saving user: ' + this.name);
-  
-  multi.exec(function (err, replies) {
+  client.set(this._namespace + ':name', function (err) {
     if (err) {
-      logger.error('failed to save user: ' + this.name);
+      logger.debug('failed to save user: ' + this.name);
       callback(err);
     } else {
       logger.debug('successfully saved user: ' + this.name);
@@ -51,8 +36,7 @@ User.prototype.remove = function (callback) {
     logger.debug('removing user: ' + this.name);
     
     multi
-      .del(namespace + ':email')
-      .del(namespace + ':password');
+      .del(this._namespace + ':email');
     
     this.getAchievements(function (err, achievements) {
       var promises;
@@ -170,24 +154,39 @@ User.findByName = function (name, callback) {
   
   logger.debug('finding user: ' + this.name);
   
-  client.multi()
-    .get(namespace + ':email')
-    .get(namespace + ':password')
-    .smembers(namespace + ':achievements')
-    .exec(function (err, replies) {
-      if (err) {
-        logger.error('failed to find user: ' + this.name);
-        callback(err);
-      } else {
-        logger.debug('found user: ' + name);
-        callback(null, User.create({
-          name: name,
-          email: replies[0],
-          password: replies[1],
-          achievements: replies[2]
-        }));
-      }
-    });
+  client.get(namespace + ':name', function (err, resp) {
+    if (err) {
+      logger.error('failed to find user: ' + name);
+      callback(err);
+    } else if (resp === null) {
+      logger.debug('no user found: ' + name);
+      callback(null);
+    } else {
+      logger.debug('found user: ' + name);
+      callback(null, User.create({
+        name: name
+      }));
+    }
+  });
+};
+
+User.login = function (name, password, callback) {
+  User.verifyCredentials(name, password, function (err) {
+    if (err) {
+      callback(err);
+    } else {
+      User.findByName(name, function (err, user) {
+        console.log(name, err, user);
+        if (err) {
+          callback(err);
+        } else if (err === null && !user) {
+          callback(null, User.create({ name: name }));
+        } else {
+          callback(null, user);
+        }
+      });
+    }
+  });
 };
 
 User.removeByName = function (callback) {
@@ -195,23 +194,11 @@ User.removeByName = function (callback) {
 };
 
 User.verifyCredentials = function (name, password, callback) {
-  var namespace = PREFIX + ':' + name,
-      testHash = createPasswordHash(password);
-  
-  client.get(namespace + ':password', function (err, realHash) {
-    if (err) {
+  if (password.length === 0) {
+    callback('No password specified');
+  } else {
+    ldapClient.bind(name + '@cmass.criticalmass.com', password, function (err, resp) {
       callback(err);
-    } else {
-      if (testHash === realHash) {
-        callback(null, true);
-      } else {
-        callback(null, false);
-      }
-    }
-  });
+    });
+  }
 };
-
-// private functions
-function createPasswordHash(value) {
-  return crypto.createHash('sha256').update(config.security.salt + value).digest('base64');
-}
