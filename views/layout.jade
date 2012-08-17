@@ -8,39 +8,45 @@ html
     link(rel="stylesheet", href="/stylesheets/fiveoclocksong.css")
   body
     header#page-header
-      #user-status
-        .wrapper.clearfix
-      .wrapper.clearfix
-        h1
-          a(href="/") fiveoclocksong
-        nav#primary-navigation
-          ul
-            li
-              a(href="/login") login
-            li
-              a(href="/achievements") achievements
-            li
-              a(href="/about") about
-            li
-              a(href="/help") help
-    #page-body.wrapper!= body
+      #user-status.container
+        .row
+          .twentyfour.colums
+      .container
+        .row
+          h1.twelve.colums
+            a(href="/") fiveoclocksong
+          nav#primary-navigation.twelve.colums
+            ul
+              li
+                a(href="/login") login
+              li
+                a(href="/achievements") achievements
+              li
+                a(href="/about") about
+              li
+                a(href="/help") help
+    #page-body.container!= body
     footer#page-footer
-      #site-info.wrapper.clearfix
-        p#system
-          b= "powered by: "
-          a(href="http://expressjs.com/") express
-          = ", "
-          a(href="http://faye.jcoglan.com/") faye
-          = ", "
-          a(href="http://couchdb.apache.org/") couchdb
-          = " and "
-          a(href="http://www.rdio.com/") rdio
-        p#rdio
-          a.button.external(href="http://www.rdio.com/accounts/login/") login to rdio
+      .container
+        .row
+          #site-info.twentyfour.columns
+          p#system
+            b= "powered by: "
+            a(href="http://expressjs.com/") express
+            = ", "
+            a(href="http://faye.jcoglan.com/") faye
+            = ", "
+            a(href="http://couchdb.apache.org/") couchdb
+            = " and "
+            a(href="http://www.rdio.com/") rdio
+          p#rdio
+            a.button.external(href="http://www.rdio.com/accounts/login/") login to rdio
       #chatroom.chatroom
-        .wrapper
-          .chatroom-messages
-          input.chatroom-input
+        .container
+          .row
+            .chatroom-messages.twentyfour.columns
+          .row
+            input.chatroom-input.twentyfour.columns
       #modal-manager
     script(src="/javascripts/lib/requirejs/require.js")
     script(src="/javascripts/lib/weld.min.js")
