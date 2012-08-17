@@ -20,9 +20,6 @@
   "repl": {
     "port": 5000
   },
-  "seaport": {
-    "port": 9090
-  },
   "security": {
     "salt": "mOYjKEw8LXPx5GLI8/wdNpWAW++ZDTxXaNJ5Q8cK",
     "secretKey": "da433f0584d14134fa5058daed2d431e22943629"
