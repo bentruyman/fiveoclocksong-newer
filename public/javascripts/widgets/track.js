@@ -1,6 +1,9 @@
 define(
-  ['services/jquery', 'services/template'],
-  function ($, templateService) {
+  [
+    'services/jquery',
+    'jade!/templates/track'
+  ],
+  function ($, trackView) {
     return {
       creator: function (sandbox) {
         var parent = document.getElementById(sandbox.getOption('parent')),
@@ -10,10 +13,7 @@ define(
         return {
           create: function () {
             // apply the template and append it to the parent container
-            templateService.applyWith('track', trackData, function (html) {
-              trackContainer = $(html).get(0);
-              $(parent).append(trackContainer);
-            });
+            $(parent).append(trackView(trackData));
           },
           destroy: function () {
             $(trackContainer).remove();

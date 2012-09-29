@@ -4,6 +4,7 @@
   require.config({
     baseUrl: '/javascripts',
     paths: {
+      jade: 'lib/requirejs-plugins/jade',
       json: 'lib/requirejs-plugins/json',
       text: 'lib/requirejs/text'
     }
