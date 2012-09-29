@@ -5,9 +5,6 @@ var log    = require('./log'),
     logger = log.getLogger('compass');
 
 var defaults = {
-  mode: 'compress', // nested, expanded, compact, compressed
-  comments: false,
-  relative: true,
   css: 'stylesheets',
   sass: 'stylesheets',
   images: 'images',
@@ -35,10 +32,8 @@ CompassCompiler.prototype.init = function() {
     'compass',
     [
       process.env.NODE_ENV === 'production' ? 'compile' : 'watch',
+      '--e', process.env.NODE_ENV === 'production' ? 'production' : 'development',
       '--boring',
-      opts.comments ? '' : '--no-line-comments',
-      opts.relative ? '--relative-assets' : '',
-      '-s', opts.mode,
       '--css-dir', opts.css,
       '--sass-dir', opts.sass,
       '--images-dir', opts.images,
