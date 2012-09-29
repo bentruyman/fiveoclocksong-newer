@@ -1,0 +1,21 @@
+// utilities
+
+@import "compass/css3/user-interface"; // temporary fix for compass
+
+.lower {
+  text-transform: lowercase;
+}
+
+.upper {
+  text-transform: uppercase;
+}
+
+.embedded {
+  font-weight: bold;
+  text-shadow: 0 -1px 0 #000;
+}
+
+.unselectable {
+  cursor: default;
+  @include user-select(none);
+}

@@ -1,6 +1,5 @@
 var path       = require('path'),
     express    = require('express'),
-    stylus     = require('stylus'),
     RedisStore = require('connect-redis')(express);
 
 var config    = require('./config'),
@@ -42,18 +41,6 @@ app.configure(function () {
     store: new RedisStore,
     cookie: {
       maxAge: 365 * 24 * 60 * 60 * 1000 // 1 year
-    }
-  }));
-  
-  app.use(stylus.middleware({
-    src: PUBLIC_DIR,
-    compile: function(str, path) {
-      return stylus(str)
-        .set('filename', path)
-        .set('compress', true)
-        .define('durl', stylus.url({
-          paths: [PUBLIC_DIR]
-        }));
     }
   }));
   
