@@ -1,6 +1,9 @@
 define(
-  ['services/jquery', 'services/template'],
-  function($, templateService) {
+  [
+    'services/jquery',
+    'jade!/templates/modal'
+  ],
+  function($, modalView) {
     return {
       creator: function (sandbox) {
         // constants
@@ -17,10 +20,7 @@ define(
             body   = sandbox.getOption('body');
         
         var create = function () {
-          templateService.applyWith('modal', { header: header, body: body }, function (html) {
-            container = $(html);
-            $('body').append(container);
-          });
+          $('body').append(modalView({ header: header, body: body }));
         };
         
         var destroy = function () {
