@@ -1,4 +1,6 @@
 // modal windows
+@import "compass";
+@import "inc/colors";
 
 $modal-border-radius: 20px;
 $modal-close-size: 25px;
@@ -28,7 +30,7 @@ $modal-close-size: 25px;
     font-size: 24px;
     font-weight: bold;
     background: #222;
-    @include background(url("images/ui/noise.png"), #222);
+    @include background(image-url("ui/noise.png"), #222);
     border-top-left-radius: $modal-border-radius;
     border-top-right-radius: $modal-border-radius;
     border-top: 1px solid #444;
@@ -63,7 +65,7 @@ $modal-close-size: 25px;
   
   .modal-window-body {
     background: $color-bg-light;
-    @include background(url("images/ui/noise.png"), $color-bg-light);
+    @include background(image-url("ui/noise.png"), $color-bg-light);
     border-bottom-left-radius: $modal-border-radius;
     border-bottom-right-radius: $modal-border-radius;
     padding: 30px;

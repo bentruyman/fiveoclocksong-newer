@@ -1,9 +1,11 @@
 // chatroom
+@import "compass";
+@import "inc/colors";
 
 .chatroom {
-  @include background(#111 image-url("/images/ui/checkered.png"));
-  @include background(image-url("/images/wordmark/large.png") no-repeat center center,
-                      image-url("/images/ui/checkered.png"));
+  @include background(#111 image-url("ui/checkered.png"));
+  @include background(image-url("wordmark/large.png") no-repeat center center,
+                      image-url("ui/checkered.png"));
   height: 360px;
   border-color: #555;
   border-color: rgba(255,255,255,0.3);

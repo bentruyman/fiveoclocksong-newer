@@ -1,6 +1,9 @@
 define(
+  'widgets/chatroom',
   ['services/jquery', 'services/chat'],
   function($, chatService) {
+    'use strict';
+    
     return {
       creator: function (sandbox) {
         // store containers

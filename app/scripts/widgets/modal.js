@@ -1,9 +1,12 @@
 define(
+  'widgets/modal',
   [
     'services/jquery',
     'jade!/templates/modal'
   ],
   function($, modalView) {
+    'use strict';
+    
     return {
       creator: function (sandbox) {
         // constants

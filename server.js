@@ -16,7 +16,7 @@ var messenger = new Messenger,
 var pollTimer = new PollTimer;
 pollTimer.start();
 
-var PUBLIC_DIR = path.resolve(__dirname, './public'),
+var PUBLIC_DIR = path.resolve(__dirname, './app'),
     VIEWS_DIR  = path.resolve(__dirname, './views');
 
 var app = module.exports = express.createServer();

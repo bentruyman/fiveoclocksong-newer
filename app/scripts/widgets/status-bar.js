@@ -1,6 +1,9 @@
 define(
+  'widgets/status-bar',
   ['services/jquery', 'services/user'],
   function ($, userService) {
+    'use strict';
+    
     return {
       creator: function (sandbox) {
         var READY_CLASS = 'ready',

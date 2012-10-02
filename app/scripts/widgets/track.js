@@ -1,9 +1,12 @@
 define(
+  'widgets/track',
   [
     'services/jquery',
     'jade!/templates/track'
   ],
   function ($, trackView) {
+    'use strict';
+    
     return {
       creator: function (sandbox) {
         var parent = document.getElementById(sandbox.getOption('parent')),

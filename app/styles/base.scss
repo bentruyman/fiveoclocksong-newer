@@ -1,4 +1,6 @@
 // base
+@import "compass";
+@import "inc/colors";
 
 ::selection {
   background: #ccc;
@@ -8,8 +10,8 @@
 html {
   font-family: "helvetica neue", helvetica, arial;
   background: $color-bg-dark;
-  @include background-image(image-url("/images/ui/noise.png"));
-  @include background(image-url("/images/ui/noise.png"), 
+  @include background-image(image-url("ui/noise.png"));
+  @include background(image-url("ui/noise.png"), 
                       linear-gradient(rgba(0,0,0,0.5), #222 500px) repeat-x);
 }
 

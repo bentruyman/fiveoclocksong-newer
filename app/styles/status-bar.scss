@@ -1,4 +1,6 @@
 // status bar
+@import "compass";
+@import "inc/colors";
 
 #user-status {
   color: $color-text-light;
@@ -33,7 +35,7 @@ h1 {
   font-size: 36px;
   font-weight: bold;
   text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
-  @include background(image-url("/images/wordmark/small.png") no-repeat 265px 5px);
+  @include background(image-url("wordmark/small.png") no-repeat 265px 5px);
   float: left;
   margin: 0;
   padding: 0 29px 0 0;

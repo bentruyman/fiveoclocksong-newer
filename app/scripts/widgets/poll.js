@@ -1,6 +1,9 @@
 define(
+  'widgets/poll',
   ['services/jquery', 'services/poll'],
   function ($, pollService) {
+    'use strict';
+    
     return {
       creator: function (sandbox) {
         var app = sandbox.app,
