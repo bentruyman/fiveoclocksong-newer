@@ -1,11 +1,5 @@
 define(
-  [
-    'widgets/chatroom',
-    'widgets/modal-manager',
-    'widgets/poll',
-    'widgets/status-bar'
-  ],
-  function (chatroom, modalManager, poll, statusBar) {
+  function () {
     'use strict';
 
     // configure require.js
@@ -19,11 +13,18 @@ define(
         jquery: 'vendor/jquery'
       }
     });
-
-    chatroom.render();
-    modalManager.render();
-    poll.render();
-    statusBar.render();
+    
+    requirejs([
+      'widgets/chatroom',
+      'widgets/modal-manager',
+      'widgets/poll',
+      'widgets/status-bar'
+    ], function (chatroom, modalManager, poll, statusBar) {
+      chatroom.render();
+      modalManager.render();
+      poll.render();
+      statusBar.render();
+    });
 
   }
 );
