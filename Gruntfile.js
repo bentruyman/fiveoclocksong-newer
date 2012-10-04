@@ -106,9 +106,7 @@ module.exports = function(grunt) {
         module: 'scripts/main'
       }],
       paths: {
-        async:  'vendor/requirejs-plugins/async',
         jade:   'vendor/requirejs-plugins/jade',
-        json:   'vendor/requirejs-plugins/json',
         text:   'vendor/requirejs-plugins/text',
         jquery: 'vendor/jquery'
       },
