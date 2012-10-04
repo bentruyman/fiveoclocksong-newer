@@ -16,8 +16,7 @@ var messenger = new Messenger,
 var pollTimer = new PollTimer;
 pollTimer.start();
 
-var PUBLIC_DIR = path.resolve(__dirname, './app'),
-    VIEWS_DIR  = path.resolve(__dirname, './views');
+var PUBLIC_DIR = path.resolve(__dirname, config.server.publicDir);
 
 var app = module.exports = express.createServer();
 
@@ -27,9 +26,6 @@ messenger.attach(app);
 // configure the express app
 app.configure(function () {
   logger.info('configuring');
-  
-  app.set('views', VIEWS_DIR);
-  app.set('view engine', 'jade');
   
   // app.use(log.connectLogger(logger, { level: log.levels.DEBUG }));
   
@@ -49,6 +45,9 @@ app.configure(function () {
 });
 
 // define the routes
+app.get('/', function (req, res) {
+  res.sendfile(PUBLIC_DIR + '/index.html');
+});
 
 // retrieves configuration options
 app.get('/config.json', function (req, res) {
