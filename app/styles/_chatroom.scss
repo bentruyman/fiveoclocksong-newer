@@ -1,6 +1,4 @@
 // chatroom
-@import "compass";
-@import "inc/colors";
 
 .chatroom {
   @include background(#111 image-url("ui/checkered.png"));

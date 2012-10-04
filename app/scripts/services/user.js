@@ -1,5 +1,5 @@
 define(
-  ['services/jquery'],
+  ['jquery'],
   function($) {
     return {
       getCurrentUser: function () {

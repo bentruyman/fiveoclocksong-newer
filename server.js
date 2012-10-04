@@ -49,11 +49,6 @@ app.configure(function () {
 });
 
 // define the routes
-app.get('/', function (req, res) {
-  res.render('index', {
-    config: config
-  });
-});
 
 // retrieves configuration options
 app.get('/config.json', function (req, res) {

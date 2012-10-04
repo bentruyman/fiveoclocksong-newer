@@ -1,200 +1,138 @@
-module.exports = function( grunt ) {
+module.exports = function(grunt) {
   'use strict';
-  //
-  // Grunt configuration:
-  //
-  // https://github.com/cowboy/grunt/blob/master/docs/getting_started.md
-  //
+  
   grunt.initConfig({
-
-    // Project configuration
-    // ---------------------
-
-    // specify an alternate install location for Bower
-    bower: {
-      dir: 'app/components'
+    
+    clean: {
+      all: ['temp', 'dist'],
+      staging: 'temp',
+      release: 'dist',
+      'prep-staging': [
+        'temp/scripts/services',
+        'temp/scripts/vendor',
+        'temp/scripts/widgets',
+        'temp/styles/inc',
+        'temp/styles/**/*.scss'
+      ]
     },
-
-    // Coffee to JS compilation
-    coffee: {
-      compile: {
+    
+    copy: {
+      'to-staging': {
         files: {
-          'temp/scripts/*.js': 'app/scripts/**/*.coffee'
-        },
-        options: {
-          basePath: 'app/scripts'
+          'temp/': 'app/**'
         }
-      }
-    },
-
-    // compile .scss/.sass to .css using Compass
-    compass: {
-      dist: {
-        // http://compass-style.org/help/tutorials/configuration-reference/#configuration-properties
-        options: {
-          config: 'config.rb'
-        }
-      }
-    },
-
-    // generate application cache manifest
-    manifest:{
-      dest: ''
-    },
-
-    // default watch configuration
-    watch: {
-      compass: {
-        files: [
-          'app/styles/**/*.{scss,sass}'
-        ],
-        tasks: 'compass reload'
       },
-      reload: {
-        files: [
-          'app/*.html',
-          'app/styles/**/*.css',
-          'app/scripts/**/*.js',
-          'app/images/**/*'
-        ],
-        tasks: 'reload'
+      'to-release': {
+        files: {
+          'dist/': 'temp/**'
+        }
       }
     },
-
-    // default lint configuration, change this to match your setup:
-    // https://github.com/cowboy/grunt/blob/master/docs/task_lint.md#lint-built-in-task
+    
+    watch: {
+      files: ['<config:lint.files>', 'app/styles/**/*.scss'],
+      tasks: ['compass:dev']
+    },
+    
+    compass: {
+      dev: {
+        src: 'app/styles',
+        dest: 'app/styles',
+        linecomments: true,
+        forcecompile: true,
+        debugsass: true,
+        images: 'app/images',
+        relativeassets: true
+      },
+      prod: {
+        src: 'temp/styles',
+        dest: 'temp/styles',
+        outputstyle: 'compressed',
+        linecomments: false,
+        forcecompile: true,
+        debugsass: false,
+        images: 'temp/images',
+        relativeassets: true
+      }
+    },
+    
     lint: {
       files: [
-        'Gruntfile.js',
-        'app/scripts/**/*.js',
+        'app/scripts/*.js',
+        'app/scripts/services/*.js',
+        'app/scripts/widgets/*.js',
         'spec/**/*.js'
       ]
     },
-
-    // specifying JSHint options and globals
-    // https://github.com/cowboy/grunt/blob/master/docs/task_lint.md#specifying-jshint-options-and-globals
+    
     jshint: {
       options: {
-        curly: true,
-        devel: true,
-        eqeqeq: true,
-        es5: true,
-        expr: true,
-        forin: true,
-        immed: true,
-        latedef: false,
-        newcap: true,
-        noarg: true,
-        predef: [
-          // dom
-          'navigator',
-          'window',
-          'clearTimeout',
-          'clearInterval',
-          'setTimeout',
-          'setInterval',
-          // requirejs
-          'define',
-          // misc
-          '_',
-          'humana'
-        ],
-        smarttabs: true,
-        supernew: true,
-        trailing: true
-      },
-      globals: {
-        jQuery: true
+        // environments
+        "es5": true,
+        "browser": true,
+        // style options
+        "curly": true,
+        "devel": true,
+        "eqeqeq": true,
+        "expr": true,
+        "forin": true,
+        "immed": true,
+        "latedef": false,
+        "newcap": true,
+        "noarg": true,
+        "scripturl": true,
+        "smarttabs": true,
+        "supernew": true,
+        "trailing": true,
+        "unused": true
       }
     },
-
-    // Build configuration
-    // -------------------
-
-    // the staging directory used during the process
-    staging: 'temp',
-    // final build output
-    output: 'dist',
-
-    mkdirs: {
-      staging: 'app/'
-    },
-
-    // Below, all paths are relative to the staging directory, which is a copy
-    // of the app/ directory. Any .gitignore, .ignore and .buildignore file
-    // that might appear in the app/ tree are used to ignore these values
-    // during the copy process.
-
-    // concat css/**/*.css files, inline @import, output a single minified css
-    css: {
-      'styles/main.css': ['styles/**/*.css']
-    },
-
-    // renames JS/CSS to prepend a hash of their contents for easier
-    // versioning
-    rev: {
-      js: 'scripts/**/*.js',
-      css: 'styles/**/*.css'
-    },
-
-    // usemin handler should point to the file containing
-    // the usemin blocks to be parsed
-    'usemin-handler': {
-      html: 'index.html'
-    },
-
-    // update references in HTML/CSS to revved files
-    usemin: {
-      html: ['**/*.html'],
-      css: ['**/*.css']
-    },
-
-    // Optimizes JPGs and PNGs (with jpegtran & optipng)
-    img: {
-      dist: 'images/**'
-    },
-
+    
     requirejs: {
-      // almond specific contents
-      // *insert almond in all your modules
       almond: true,
-      // *replace require script calls, with the almond modules
-      // in the following files
+      dir: 'temp',
+      appDir: 'app',
+      baseUrl: 'scripts',
+      modules: [{ name: 'main' }],
       replaceRequireScript: [{
-        files: ['build/index.html'],
-        module: 'main'
+        files: ['temp/index.html'],
+        module: 'scripts/main'
       }],
-      // "normal" require config
-      // *create at least a 'main' module
-      // thats necessary for using the almond auto insertion
-      modules: [{name: 'main'}],
-      dir: 'build',
-      appDir: 'src',
-      baseUrl: 'js',
       paths: {
-        underscore: '../vendor/underscore',
-        jquery    : '../vendor/jquery',
-        backbone  : '../vendor/backbone'
+        async:  'vendor/requirejs-plugins/async',
+        jade:   'vendor/requirejs-plugins/jade',
+        json:   'vendor/requirejs-plugins/json',
+        text:   'vendor/requirejs/text',
+        jquery: 'vendor/jquery'
       },
       pragmas: {
-        doExclude: true
+          doExclude: true
       },
       skipModuleInsertion: false,
       optimizeAllPluginResources: true,
       findNestedDependencies: true
     },
-
-    // While Yeoman handles concat/min when using
-    // usemin blocks, you can still use them manually
-    concat: {
-      dist: ''
-    },
-
-    min: {
-      dist: ''
-    }
+    
+    staging: 'temp',
+    release: 'dist'
   });
-
+  
+  grunt.registerTask('default', 'lint');
+  
+  grunt.registerTask('release', [
+    'copy:to-staging',
+    'requirejs:js',
+    'compass:prod',
+    'clean:prep-staging',
+    'clean:release',
+    'copy:to-release'
+  ]);
+  
+  grunt.loadNpmTasks('grunt-compass');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-requirejs');
+  
+  grunt.loadTasks('tasks');
 
 };
