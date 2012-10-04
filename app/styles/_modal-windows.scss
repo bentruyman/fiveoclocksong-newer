@@ -1,0 +1,71 @@
+// modal windows
+
+$modal-border-radius: 20px;
+$modal-close-size: 25px;
+
+.modal-window {
+  background: $color-bg-dark;
+  background: $color-shadow;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  
+  .modal-window-container {
+    color: $color-text-dark;
+    border-radius: $modal-border-radius;
+    box-shadow: 0 0 10px $color-shadow;
+    width: 650px;
+    margin-left: -325px;;
+    position: fixed;
+    top: 70px;
+    left: 50%;
+  }
+  
+  .modal-window-header {
+    color: $color-text-light;
+    font-size: 24px;
+    font-weight: bold;
+    background: #222;
+    @include background(image-url("ui/noise.png"), #222);
+    border-top-left-radius: $modal-border-radius;
+    border-top-right-radius: $modal-border-radius;
+    border-top: 1px solid #444;
+    padding: 20px 30px;
+  }
+  
+  .modal-window-close {
+    color: $color-text-light;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: $modal-close-size;
+    text-shadow: 0 -1px 0 #000;
+    background: $color-bg-dark;
+    @include background(linear-gradient(top,
+                        lighten($color-bg-dark, 25%),
+                        darken($color-bg-dark, 10%)));
+    border: 0;
+    border-radius: div(modal-close-size, 2);
+    box-shadow: 0 0 20px color-shadow;
+    height: modal-close-size;
+    width: modal-close-size;
+    margin: 5px 0;
+    padding: 0;
+    float: right;
+    
+    &:active {
+      line-height: modal-close-size + 2;
+      text-shadow: none;
+      background: lighten($color-bg-dark, 30%);
+    }
+  }
+  
+  .modal-window-body {
+    background: $color-bg-light;
+    @include background(image-url("ui/noise.png"), $color-bg-light);
+    border-bottom-left-radius: $modal-border-radius;
+    border-bottom-right-radius: $modal-border-radius;
+    padding: 30px;
+  }
+}

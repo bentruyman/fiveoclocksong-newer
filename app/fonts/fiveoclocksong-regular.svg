@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata></metadata>
+<defs>
+<font id="fiveoclocksongregular" horiz-adv-x="2048" >
+<font-face units-per-em="2048" ascent="1638" descent="-410" />
+<missing-glyph horiz-adv-x="1228" />
+<glyph />
+<glyph />
+<glyph unicode="&#xd;" />
+<glyph unicode=" "  horiz-adv-x="1228" />
+<glyph unicode="&#x09;" horiz-adv-x="1228" />
+<glyph unicode="&#xa0;" horiz-adv-x="1228" />
+<glyph unicode="&#xe000;" horiz-adv-x="1024" d="M0 0z" />
+<glyph unicode="&#xe001;" horiz-adv-x="1228" d="M205 0h272v1282h-272v-1282zM752 0h272v1282h-272v-1282z" />
+</font>
+</defs></svg> 

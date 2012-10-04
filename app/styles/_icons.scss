@@ -1,0 +1,30 @@
+// icons
+
+@mixin iconify($char) {
+  &:before { content: "#{$char}"; }
+}
+
+@font-face {
+  font-family: 'fiveoclocksong';
+  src: font-url('/fonts/fiveoclocksong.eot');
+  src: font-url('/fonts/fiveoclocksong.eot?ie') format('embedded-opentype'),
+       font-url('/fonts/fiveoclocksong.woff') format('woff'),
+       font-url('/fonts/fiveoclocksong.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: 'fiveoclocksong';
+  font-style: normal;
+  line-height: 1em;
+  text-decoration: inherit;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+}
+
+.icon-pause     { @include iconify("\e001"); }
+.icon-play      { @include iconify("\e002"); }
+.icon-vote-up   { @include iconify("\e003"); }
+.icon-vote-down { @include iconify("\e004"); }

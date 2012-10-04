@@ -11,7 +11,7 @@ var compassCompiler = new CompassCompiler,
     loadBalancer    = new LoadBalancer,
     pollManager     = new PollManager;
 
-compassCompiler.init();
+// compassCompiler.init();
 pollManager.init();
 loadBalancer.start();
 repl.init();
