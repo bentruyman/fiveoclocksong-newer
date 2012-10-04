@@ -27,7 +27,7 @@ define(
     }
 
     return {
-      rendering: function (container) {}
+      render: function (container) {}
     };
   }
 );
