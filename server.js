@@ -29,6 +29,9 @@ app.configure(function () {
   
   // app.use(log.connectLogger(logger, { level: log.levels.DEBUG }));
   
+  app.set('views', PUBLIC_DIR);
+  app.set('view engine', 'ejs');
+  
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
@@ -46,7 +49,7 @@ app.configure(function () {
 
 // define the routes
 app.get('/', function (req, res) {
-  res.sendfile(PUBLIC_DIR + '/index.html');
+  res.render('index', { config: config, layout: null });
 });
 
 // retrieves configuration options
