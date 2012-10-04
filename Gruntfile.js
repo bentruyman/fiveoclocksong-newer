@@ -102,7 +102,7 @@ module.exports = function(grunt) {
       baseUrl: 'scripts',
       modules: [{ name: 'main' }],
       replaceRequireScript: [{
-        files: ['temp/index.html'],
+        files: ['temp/index.ejs'],
         module: 'scripts/main'
       }],
       paths: {
