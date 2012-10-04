@@ -42,7 +42,7 @@ module.exports = function(grunt) {
         forcecompile: true,
         debugsass: true,
         images: 'app/images',
-        relativeassets: true
+        relativeassets: false
       },
       prod: {
         src: 'temp/styles',
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
         forcecompile: true,
         debugsass: false,
         images: 'temp/images',
-        relativeassets: true
+        relativeassets: false
       }
     },
     
