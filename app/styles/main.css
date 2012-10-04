@@ -1,4 +1,3 @@
-@import url(lib/base.css);
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/bent\/Work\/Source\/fiveoclocksong\/app\/styles\/_base\.scss}line{font-family:\000033}}
 ::selection {
   background: #ccc;
@@ -9,12 +8,12 @@
 html {
   font-family: "helvetica neue", helvetica, arial;
   background: #333333;
-  background-image: url('../images/ui/noise.png?1348944670');
-  background: url('../images/ui/noise.png?1348944670'), -webkit-gradient(linear, 50% 0%, 50% 500, color-stop(0%, rgba(0, 0, 0, 0.5)), color-stop(100%, #222222)) repeat-x;
-  background: url('../images/ui/noise.png?1348944670'), -webkit-linear-gradient(rgba(0, 0, 0, 0.5), #222222 500px) repeat-x;
-  background: url('../images/ui/noise.png?1348944670'), -moz-linear-gradient(rgba(0, 0, 0, 0.5), #222222 500px) repeat-x;
-  background: url('../images/ui/noise.png?1348944670'), -o-linear-gradient(rgba(0, 0, 0, 0.5), #222222 500px) repeat-x;
-  background: url('../images/ui/noise.png?1348944670'), linear-gradient(rgba(0, 0, 0, 0.5), #222222 500px) repeat-x;
+  background-image: url('/images/ui/noise.png?1349322906');
+  background: url('/images/ui/noise.png?1349322906'), -webkit-gradient(linear, 50% 0%, 50% 500, color-stop(0%, rgba(0, 0, 0, 0.5)), color-stop(100%, #222222)) repeat-x;
+  background: url('/images/ui/noise.png?1349322906'), -webkit-linear-gradient(rgba(0, 0, 0, 0.5), #222222 500px) repeat-x;
+  background: url('/images/ui/noise.png?1349322906'), -moz-linear-gradient(rgba(0, 0, 0, 0.5), #222222 500px) repeat-x;
+  background: url('/images/ui/noise.png?1349322906'), -o-linear-gradient(rgba(0, 0, 0, 0.5), #222222 500px) repeat-x;
+  background: url('/images/ui/noise.png?1349322906'), linear-gradient(rgba(0, 0, 0, 0.5), #222222 500px) repeat-x;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/bent\/Work\/Source\/fiveoclocksong\/app\/styles\/_base\.scss}line{font-family:\0000316}}
@@ -62,8 +61,8 @@ p:last-of-type {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/bent\/Work\/Source\/fiveoclocksong\/app\/styles\/_chatroom\.scss}line{font-family:\000033}}
 .chatroom {
-  background: #111111 url('../images/ui/checkered.png?1345164470');
-  background: url('../images/wordmark/large.png?1345164470') no-repeat center center, url('../images/ui/checkered.png?1345164470');
+  background: #111111 url('/images/ui/checkered.png?1349322906');
+  background: url('/images/wordmark/large.png?1349322906') no-repeat center center, url('/images/ui/checkered.png?1349322906');
   height: 360px;
   border-color: #555;
   border-color: rgba(255, 255, 255, 0.3);
@@ -166,7 +165,7 @@ p:last-of-type {
   font-size: 24px;
   font-weight: bold;
   background: #222;
-  background: url('../images/ui/noise.png?1348944670'), #222222;
+  background: url('/images/ui/noise.png?1349322906'), #222222;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   border-top: 1px solid #444;
@@ -203,7 +202,7 @@ p:last-of-type {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/bent\/Work\/Source\/fiveoclocksong\/app\/styles\/_modal-windows\.scss}line{font-family:\0000364}}
 .modal-window .modal-window-body {
   background: #eeeeee;
-  background: url('../images/ui/noise.png?1348944670'), #eeeeee;
+  background: url('/images/ui/noise.png?1349322906'), #eeeeee;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   padding: 30px;
@@ -267,7 +266,7 @@ h1 {
   font-size: 36px;
   font-weight: bold;
   text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
-  background: url('../images/wordmark/small.png?1345164470') no-repeat 265px 5px;
+  background: url('/images/wordmark/small.png?1349322906') no-repeat 265px 5px;
   float: left;
   margin: 0;
   padding: 0 29px 0 0;

@@ -56,6 +56,13 @@ module.exports = function(grunt) {
       }
     },
     
+    exec: {
+      dev: {
+        command: 'NODE_ENV=development node app',
+        stdout: true
+      }
+    },
+    
     lint: {
       files: [
         'app/scripts/*.js',
@@ -131,6 +138,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-compass');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-requirejs');
   
   grunt.loadTasks('tasks');
