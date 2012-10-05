@@ -18,7 +18,8 @@ module.exports = new Settings({
     },
     redis: {
       host: "127.0.0.1",
-      port: 6379
+      port: 6379,
+      namespace: 'fiveoclocksong'
     },
     repl: {
       port: 5000
