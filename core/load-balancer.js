@@ -3,13 +3,17 @@ var http   = require('http'),
     path   = require('path'),
     up     = require('up'),
     config = require('../config').server,
-    logger = require('./log').getLogger('load balancer');
+    logger = require('./log').getLogger('load balancer'),
+    Messenger = require('../lib/messenger');
+
+var messenger = new Messenger;
 
 var upped = false;
 
 var LoadBalancer = module.exports = function () {
   logger.info('created server');
-  this.master = http.Server();
+  this.master = http.createServer();
+  messenger.attach(this.master);
 };
 
 LoadBalancer.prototype.start = function () {

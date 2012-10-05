@@ -6,12 +6,9 @@ var path       = require('path'),
 var config    = require('./config'),
     log       = require('./core/log'),
     logger    = log.getLogger('web server'),
-    Messenger = require('./lib/messenger'),
     PollTimer = require('./lib/poll-timer');
 
-var messenger = new Messenger,
-    messengerClient = messenger.getClient(),
-    pollService = require('./services/poll'),
+var pollService = require('./services/poll'),
     userService = require('./services/user');
 
 var pollTimer = new PollTimer;
@@ -20,9 +17,6 @@ pollTimer.start();
 var PUBLIC_DIR = path.resolve(__dirname, config.server.publicDir);
 
 var app = module.exports = express();
-
-// attach the messenger
-messenger.attach(app);
 
 // configure the express app
 app.configure(function () {
