@@ -1,4 +1,5 @@
 var path       = require('path'),
+    ejs        = require('ejs'),
     express    = require('express'),
     RedisStore = require('connect-redis')(express);
 
@@ -18,7 +19,7 @@ pollTimer.start();
 
 var PUBLIC_DIR = path.resolve(__dirname, config.server.publicDir);
 
-var app = module.exports = express.createServer();
+var app = module.exports = express();
 
 // attach the messenger
 messenger.attach(app);
@@ -31,6 +32,10 @@ app.configure(function () {
   
   app.set('views', PUBLIC_DIR);
   app.set('view engine', 'ejs');
+  
+  ejs.open  = '{{';
+  ejs.close = '}}';
+  app.engine('ejs', ejs.__express);
   
   app.use(express.bodyParser());
   app.use(express.methodOverride());
