@@ -6,10 +6,14 @@ var path       = require('path'),
 var config    = require('./config'),
     log       = require('./core/log'),
     logger    = log.getLogger('web server'),
+    Messenger = require('./lib/messenger'),
     PollTimer = require('./lib/poll-timer');
 
 var pollService = require('./services/poll'),
     userService = require('./services/user');
+
+var messenger = new Messenger,
+    messengerClient = messenger.getClient();
 
 var pollTimer = new PollTimer;
 pollTimer.start();
