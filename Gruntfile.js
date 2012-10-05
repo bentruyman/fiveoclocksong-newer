@@ -60,10 +60,6 @@ module.exports = function(grunt) {
       dev: {
         command: 'NODE_ENV=development node app',
         stdout: true
-      },
-      prod: {
-        command: 'NODE_ENV=production node app',
-        stdout: true
       }
     },
     
