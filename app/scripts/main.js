@@ -7,9 +7,8 @@ define(
       baseUrl: 'scripts',
       paths: {
         // plugins
-        jade:     'vendor/requirejs-plugins/jade',
-        order:    'vendor/requirejs-plugins/order',
-        text:     'vendor/requirejs-plugins/text',
+        jade:       'vendor/requirejs-plugins/jade',
+        text:       'vendor/requirejs-plugins/text',
         // libraries
         backbone:   'vendor/backbone',
         jquery:     'vendor/jquery',

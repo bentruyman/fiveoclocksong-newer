@@ -110,9 +110,19 @@ module.exports = function(grunt) {
         module: 'scripts/main'
       }],
       paths: {
-        jade:   'vendor/requirejs-plugins/jade',
-        text:   'vendor/requirejs-plugins/text',
-        jquery: 'vendor/jquery'
+        // plugins
+        jade:       'vendor/requirejs-plugins/jade',
+        text:       'vendor/requirejs-plugins/text',
+        // libraries
+        backbone:   'vendor/backbone',
+        jquery:     'vendor/jquery',
+        underscore: 'vendor/underscore'
+      },
+      shim: {
+        backbone: {
+          deps: ['underscore', 'jquery'],
+          exports: 'Backbone'
+        }
       },
       skipModuleInsertion: false,
       optimizeAllPluginResources: true,
