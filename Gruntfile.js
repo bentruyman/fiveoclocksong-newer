@@ -111,19 +111,19 @@ module.exports = function(grunt) {
       }],
       paths: {
         // plugins
-        jade:       'vendor/requirejs-plugins/jade',
-        text:       'vendor/requirejs-plugins/text',
+        jade:     'vendor/requirejs-plugins/jade',
+        text:     'vendor/requirejs-plugins/text',
         // libraries
-        backbone:   'vendor/backbone',
-        jquery:     'vendor/jquery',
-        underscore: 'vendor/underscore'
+        backbone: 'vendor/backbone',
+        jquery:   'vendor/jquery',
+        lodash:   'vendor/lodash.custom'
       },
       shim: {
-        underscore: {
+        lodash: {
           exports: '_'
         },
         backbone: {
-          deps: ['underscore', 'jquery'],
+          deps: ['lodash', 'jquery'],
           exports: 'Backbone'
         }
       },
