@@ -1,28 +1,31 @@
 define(
   function () {
     'use strict';
-
+    
     // configure require.js
     require.config({
       baseUrl: 'scripts',
       paths: {
-        jade:   'vendor/requirejs-plugins/jade',
-        text:   'vendor/requirejs-plugins/text',
-        jquery: 'vendor/jquery'
+        // plugins
+        jade:     'vendor/requirejs-plugins/jade',
+        order:    'vendor/requirejs-plugins/order',
+        text:     'vendor/requirejs-plugins/text',
+        // libraries
+        backbone:   'vendor/backbone',
+        jquery:     'vendor/jquery',
+        underscore: 'vendor/underscore'
+      },
+      shim: {
+        backbone: {
+          deps: ['underscore', 'jquery'],
+          exports: 'Backbone'
+        }
       }
     });
     
-    requirejs([
-      'widgets/chatroom',
-      'widgets/modal-manager',
-      'widgets/poll',
-      'widgets/status-bar'
-    ], function (chatroom, modalManager, poll, statusBar) {
-      chatroom.render();
-      modalManager.render();
-      poll.render();
-      statusBar.render();
+    require(['app'], function (app) {
+      app.init();
     });
-
+    
   }
 );
