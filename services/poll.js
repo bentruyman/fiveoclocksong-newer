@@ -7,9 +7,7 @@ var config = require('../config'),
 
 var PollService = module.exports = {
   // creates and saves a new poll to the database
-  createPoll: function (date, callback) {
-    var dateString = Poll.createDateString(date);
-    
+  createPoll: function (dateString, callback) {
     logger.info('creating poll for ' + dateString);
     
     var poll = Poll.create({ date: dateString });
@@ -48,9 +46,7 @@ var PollService = module.exports = {
     });
   },
   // retrieves a poll based on the specified date array
-  getPoll: function (date, callback) {
-    var dateString = Poll.createDateString(date);
-    
+  getPoll: function (dateString, callback) {
     logger.info('retrieving poll for ' + dateString);
     
     Poll.findByDate(dateString, function (err, poll) {
@@ -61,10 +57,11 @@ var PollService = module.exports = {
           if (err) {
             callback(err);
           } else {
-            callback(null, {
-              tracks: tracks,
-              votes: votes
+            // merge tracks with votes
+            tracks.forEach(function (track, index) {
+              track.votes = votes[index];
             });
+            callback(tracks);
           }
         });
       }
@@ -82,7 +79,7 @@ var PollService = module.exports = {
       if (dateString !== todaysDateString || todaysPoll === null) {
         todaysDateString = dateString;
         
-        PollService.getPoll(new Date, function (err, poll) {
+        PollService.getPoll(todaysDateString, function (err, poll) {
           if (err) {
             callback(err);
           } else {
@@ -96,6 +93,6 @@ var PollService = module.exports = {
     };
   }()),
   createTodaysPoll: function (callback) {
-    PollService.createPoll(new Date, callback);
+    PollService.createPoll(Poll.createDateString(new Date), callback);
   }
 };
