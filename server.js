@@ -18,7 +18,8 @@ var messenger = new Messenger,
 var pollTimer = new PollTimer;
 pollTimer.start();
 
-var PUBLIC_DIR = path.resolve(__dirname, config.server.publicDir);
+var PUBLIC_DIR = path.resolve(__dirname, config.server.publicDir),
+    API_ROOT = '/api';
 
 var app = module.exports = express();
 
@@ -64,21 +65,20 @@ app.get('/config.json', function (req, res) {
 });
 
 // retrieves the current poll's object
-app.get('/poll.json', function (req, res) {
-  pollService.getTodaysPoll(function (err, poll) {
+app.get(API_ROOT + '/poll/:date', function (req, res) {
+  pollService.getPoll(req.params.date, function (err, poll) {
     if (err) {
       res.json(err);
     } else {
       res.json({
-        poll: poll,
-        state: pollTimer.getState()
+        tracks: poll
       });
     }
   });
 });
 
 // retrieves the logged in user's object, or null
-app.get('/user.json', function (req, res) {
+app.get(API_ROOT + '/user/:username', function (req, res) {
   var username = req.session.username;
   
   if (username) {

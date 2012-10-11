@@ -221,11 +221,16 @@ Poll.createDateString = function (date) {
       month = date.getMonth() + 1,
       day   = date.getDate();
   
+  // stringify all the numbers
+  year =   year.toString();
+  month = month.toString();
+  day =     day.toString();
+  
   // pad month to two digits
-  month = (month.length === 2) ? month : '0' + month;
+  month = (month.length === 1) ? '0' + month : month;
   
   // pad day to two digits
-  day = (day.length === 2) ? day : '0' + day;
+  day = (day.length === 1) ? '0' + day : day;
   
   return '' + year + month + day;
 };
