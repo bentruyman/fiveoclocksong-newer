@@ -23,6 +23,20 @@ function execute(params, callback) {
   );
 }
 
+// a cache of track data
+var trackCache = {};
+
+// formats an Rdio track into a fiveoclocksong track
+function formatTrack(track) {
+  return {
+    key:    track.key,
+    name:   track.name,
+    artist: track.artist,
+    album:  track.album,
+    icon:   track.icon
+  };
+}
+
 var Rdio = module.exports = {
   getPlaybackToken: function (callback) {
     var result;
@@ -46,17 +60,34 @@ var Rdio = module.exports = {
     );
   },
   getTrackData: function (ids, callback) {
-    // if an array of IDs are passed in, join them into a string consumable by
-    // the Rdio API
-    if (Array.isArray(ids)) {
-      ids = ids.join(',');
+    var cachedIds = Object.keys(trackCache),
+        originalIds, keys;
+    
+    // convert ids to an array if it isn't one already
+    ids = Array.isArray(ids) ? ids : [ids];
+    
+    // store the original list of ids
+    originalIds = ids.slice(0);
+    
+    // filter out tracks that are in the cache
+    ids = ids.filter(function (id) {
+      return cachedIds.indexOf(id) === -1;
+    });
+    
+    // if all of the tracks being requested have been cached, respond
+    // immediately
+    if (ids.length === 0) {
+      logger.debug('retrieved all tracks from cache');
+      return callback(null, originalIds.map(function (id) {
+        return trackCache[id];
+      }));
     }
     
     logger.debug('retrieving track data: ' + ids);
     
     execute({
         method: 'get',
-        keys: ids,
+        keys: ids.join(','),
       }, function (err, data, response) {
         var tracks, rawTracks;
         
@@ -68,15 +99,15 @@ var Rdio = module.exports = {
         rawTracks = JSON.parse(data).result;
         
         tracks = Object.keys(rawTracks).map(function (id) {
-          var track = rawTracks[id];
+          var track = rawTracks[id],
+              formattedTrack;
           
-          return {
-            key:    track.key,
-            name:   track.name,
-            artist: track.artist,
-            album:  track.album,
-            icon:   track.icon
-          };
+          formattedTrack = formatTrack(track);
+          
+          // add the formatted track to the cache
+          trackCache[id] = formattedTrack;
+          
+          return formattedTrack;
         });
         
         logger.debug('successfully found data for tracks: ' + ids.toString());
