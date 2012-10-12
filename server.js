@@ -67,13 +67,7 @@ app.get('/config.json', function (req, res) {
 // retrieves the current poll's object
 app.get(API_ROOT + '/poll/:date', function (req, res) {
   pollService.getPoll(req.params.date, function (err, poll) {
-    if (err) {
-      res.json(err);
-    } else {
-      res.json({
-        tracks: poll
-      });
-    }
+    res.json(err || poll);
   });
 });
 

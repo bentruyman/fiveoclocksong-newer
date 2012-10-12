@@ -61,7 +61,10 @@ var PollService = module.exports = {
             tracks.forEach(function (track, index) {
               track.votes = votes[index];
             });
-            callback(null, tracks);
+            
+            callback(null, {
+              tracks: tracks
+            });
           }
         });
       }
