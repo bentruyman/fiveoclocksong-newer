@@ -26,6 +26,17 @@ function execute(params, callback) {
 // a cache of track data
 var trackCache = {};
 
+// formats an Rdio track into a fiveoclocksong track
+function formatTrack(track) {
+  return {
+    key:    track.key,
+    name:   track.name,
+    artist: track.artist,
+    album:  track.album,
+    icon:   track.icon
+  };
+}
+
 var Rdio = module.exports = {
   getPlaybackToken: function (callback) {
     var result;
@@ -66,6 +77,7 @@ var Rdio = module.exports = {
     // if all of the tracks being requested have been cached, respond
     // immediately
     if (ids.length === 0) {
+      logger.debug('retrieved all tracks from cache');
       return callback(null, originalIds.map(function (id) {
         return trackCache[id];
       }));
@@ -90,13 +102,7 @@ var Rdio = module.exports = {
           var track = rawTracks[id],
               formattedTrack;
           
-          formattedTrack = {
-            key:    track.key,
-            name:   track.name,
-            artist: track.artist,
-            album:  track.album,
-            icon:   track.icon
-          };
+          formattedTrack = formatTrack(track);
           
           // add the formatted track to the cache
           trackCache[id] = formattedTrack;

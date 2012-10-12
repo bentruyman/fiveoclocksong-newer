@@ -19,7 +19,6 @@ var PollManager = module.exports = function () {
   this.init = function () {
     // check to see if today's poll already exists
     pollService.getTodaysPoll(function (err, poll) {
-      console.log('poll', poll);
       // if the poll doesn't exist, create it
       if (poll.tracks.length === 0) {
         pollService.createTodaysPoll(function (err, poll) {
