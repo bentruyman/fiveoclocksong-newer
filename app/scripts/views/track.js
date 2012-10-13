@@ -2,7 +2,7 @@ define(
   [
     'backbone',
     'jquery',
-    'jade!/templates/track'
+    'jade!templates/track'
   ],
   function(Backbone, $, trackView) {
     var AppView = Backbone.View.extend({

@@ -47,8 +47,12 @@ module.exports = new Settings({
     }
   },
   production: {
+    repl: {
+      port: 5001
+    },
     server: {
-      publicDir: 'dist'
+      publicDir: 'dist',
+      port: 3001
     }
   }
 });

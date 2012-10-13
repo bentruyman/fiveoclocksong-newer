@@ -4,7 +4,6 @@ var net    = require('net'),
     logger = require('./log').getLogger('repl'),
     Poll   = require('../models/poll');
 
-
 var Messenger = require('../lib/messenger'),
     messenger = new Messenger,
     messengerClient = messenger.getClient();
