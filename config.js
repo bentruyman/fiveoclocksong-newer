@@ -29,9 +29,7 @@ module.exports = new Settings({
     },
     server: {
       host: "localhost",
-      port: 3000,
-      workers: 4,
-      publicDir: 'app'
+      port: 3000
     },
     timer: {
       days: [1,2,3,4,5],
@@ -41,17 +39,12 @@ module.exports = new Settings({
     }
   },
   development: {},
-  test: {
-    server: {
-      publicDir: 'temp'
-    }
-  },
+  test: {},
   production: {
     repl: {
       port: 5001
     },
     server: {
-      publicDir: 'dist',
       port: 3001
     }
   }
