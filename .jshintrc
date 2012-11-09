@@ -1,8 +1,6 @@
 {
-  // environments
   "es5": true,
   "browser": true,
-  // style options
   "curly": true,
   "devel": true,
   "eqeqeq": true,
@@ -16,5 +14,5 @@
   "smarttabs": true,
   "supernew": true,
   "trailing": true,
-  "unused": true
+  "unused": false
 }

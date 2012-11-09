@@ -1,3 +1,5 @@
+var crypto = require('crypto');
+
 var Q = require('q'),
     check = require('validator').check;
 
@@ -136,10 +138,17 @@ User.prototype.setAchievementData = function (name, data, callback) {
     });
 };
 
+User.prototype.getSessionId = function () {
+  var shasum = crypto.createHash('sha512');
+  
+  shasum.update(this.name + config.security.salt);
+  
+  return shasum.digest('base64');
+};
+
 User.prototype.toJSON = function () {
   return {
-    name: this.name,
-    email: this.email
+    name: this.name
   };
 };
 
@@ -175,7 +184,6 @@ User.login = function (name, password, callback) {
       callback(err);
     } else {
       User.findByName(name, function (err, user) {
-        console.log(name, err, user);
         if (err) {
           callback(err);
         } else if (err === null && !user) {

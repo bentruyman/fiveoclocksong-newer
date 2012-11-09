@@ -2,7 +2,7 @@ module.exports.actions = function (req, res, ss) {
   req.use('session');
   
   return {
-    sendMessage: function (message) {
+    send: function (message) {
       if (message && message.length > 0) {
         ss.publish.all('/chat/new-message', message);
         return res(true);
@@ -11,4 +11,6 @@ module.exports.actions = function (req, res, ss) {
       }
     }
   };
-}
+};
+
+var foo = new Date;

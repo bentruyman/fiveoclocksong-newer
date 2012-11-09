@@ -87,7 +87,7 @@ var Rdio = module.exports = {
     
     execute({
         method: 'get',
-        keys: ids.join(','),
+        keys: ids.join(',')
       }, function (err, data, response) {
         var tracks, rawTracks;
         
