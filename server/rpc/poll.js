@@ -21,7 +21,7 @@ module.exports.actions = function (req, res, ss) {
       var poll;
       
       if ('username' in req.session) {
-        poll = new Poll({ date: Poll.createDateString(new Date) });
+        poll = getTodays();
         poll.incrementVote(req.session.username, trackIndex, 1, function (err) {
           if (err) {
             res(false);
@@ -37,7 +37,7 @@ module.exports.actions = function (req, res, ss) {
       var poll;
       
       if ('username' in req.session) {
-        poll = new Poll({ date: Poll.createDateString(new Date) });
+        poll = getTodays();
         poll.decrementVote(req.session.username, trackIndex, 1, function (err) {
           if (err) {
             res(false);
