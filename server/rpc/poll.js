@@ -54,6 +54,7 @@ module.exports.actions = function (req, res, ss) {
   return rpc;
 };
 
+// TODO: this is dumb
 function getTodays() {
   return new Poll({ date: Poll.createDateString(new Date) });
 }
