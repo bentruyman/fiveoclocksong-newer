@@ -1,5 +1,3 @@
-var crypto = require('crypto');
-
 var Q = require('q'),
     check = require('validator').check;
 
@@ -136,14 +134,6 @@ User.prototype.setAchievementData = function (name, data, callback) {
         callback();
       }
     });
-};
-
-User.prototype.getSessionId = function () {
-  var shasum = crypto.createHash('sha512');
-  
-  shasum.update(this.name + config.security.salt);
-  
-  return shasum.digest('base64');
 };
 
 User.prototype.toJSON = function () {

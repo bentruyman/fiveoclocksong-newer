@@ -7,7 +7,7 @@ module.exports.actions = function (req, res, ss) {
     login: function (username, password) {
       User.login(username, password, function (err, user) {
         if (user) {
-          req.session.setUserId(user.getSessionId());
+          req.session.setUserId(user.name);
           
           req.session.loggedIn = true;
           req.session.username = user.name;
