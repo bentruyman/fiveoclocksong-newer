@@ -4,9 +4,9 @@ var Q = require('q'),
     check = require('validator').check;
 
 var config = require('../../config'),
-    ldapClient = require('../lib/ldap').createClient(),
+    ldapClient = require('../lib/ldap').createClient(config.ldap.url),
     logger = require('../lib/logger').createLogger('user model'),
-    client = require('../lib/db').createClient();
+    client = require('../lib/db').createClient(config.redis.host, config.redis.port);
 
 var PREFIX = 'users';
 

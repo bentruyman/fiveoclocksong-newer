@@ -3,7 +3,7 @@ var Q = require('q'),
 
 var config = require('../../config'),
     logger = require('../lib/logger').createLogger('poll model'),
-    client = require('../lib/db').createClient(),
+    client = require('../lib/db').createClient(config.redis.host, config.redis.port),
     rdio = require('../services/rdio');
 
 var PREFIX = 'polls',

@@ -1,6 +1,6 @@
 var EventEmitter = require('events').EventEmitter;
 
-var config = require('../config');
+var config = require('../../config');
 
 var STARTED = 'started',
     STOPPED = 'stopped';
@@ -79,6 +79,7 @@ var PollTimer = function () {
 PollTimer.prototype = new EventEmitter;
 
 module.exports = {
+  PollTimer: PollTimer,
   createTimer: function () {
     return new PollTimer;
   }

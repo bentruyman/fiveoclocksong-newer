@@ -1,9 +1,11 @@
 var ldap = require('ldapjs');
 
-var config = require('../../config');
+var LDAPClient = function (endpoint) {
+  return ldap.createClient({ url: endpoint });
+};
 
 module.exports = {
-  createClient: function () {
-    return ldap.createClient({ url: config.ldap.url });
+  createClient: function (endpoint) {
+    return new LDAPClient(endpoint);
   }
 };
