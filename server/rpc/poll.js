@@ -15,15 +15,45 @@ module.exports.actions = function (req, res, ss) {
       });
     },
     today: function () {
-      rpc.get(Poll.createDateString(new Date));
+      res(todaysPoll);
     },
     vote: function (trackIndex) {
+      var poll;
       
+      if ('username' in req.session) {
+        poll = new Poll({ date: Poll.createDateString(new Date) });
+        poll.incrementVote(req.session.username, trackIndex, 1, function (err) {
+          if (err) {
+            res(false);
+          } else {
+            res(true);
+          }
+        });
+      } else {
+        res(false);
+      }
     },
     unvote: function (trackIndex) {
+      var poll;
       
+      if ('username' in req.session) {
+        poll = new Poll({ date: Poll.createDateString(new Date) });
+        poll.decrementVote(req.session.username, trackIndex, 1, function (err) {
+          if (err) {
+            res(false);
+          } else {
+            res(true);
+          }
+        });
+      } else {
+        res(false);
+      }
     }
   };
   
   return rpc;
 };
+
+function getTodays() {
+  return new Poll({ date: Poll.createDateString(new Date) });
+}
