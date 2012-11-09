@@ -3,7 +3,7 @@ var User = require('../models/user');
 module.exports.actions = function (req, res, ss) {
   req.use('session');
   
-  return {
+  var rpc = {
     login: function (username, password) {
       User.login(username, password, function (err, user) {
         if (user) {
@@ -37,6 +37,8 @@ module.exports.actions = function (req, res, ss) {
       res(formatSession(req.session));
     }
   };
+  
+  return rpc;
 };
 
 function formatSession(s) {

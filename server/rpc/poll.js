@@ -2,6 +2,8 @@ var Poll = require('../models/poll'),
     pollService = require('../services/poll');
 
 module.exports.actions = function (req, res, ss) {
+  req.use('session');
+  
   var rpc = {
     get: function (dateString) {
       pollService.getPoll(dateString, function (err, poll) {
