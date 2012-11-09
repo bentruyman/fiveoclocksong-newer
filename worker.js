@@ -10,7 +10,7 @@ var http = require('http'),
 // define a single-page client called 'main'
 ss.client.define('main', {
   view: 'app.html',
-  css:  [], //['libs/reset.css', 'app.styl'],
+  css:  ['libs/base.css', 'app.styl'],
   code: ['libs/jquery.js', 'app'],
   tmpl: '*'
 });
@@ -20,7 +20,8 @@ ss.http.route('/', function(req, res){
   res.serveClient('main');
 });
 
-// ss.client.formatters.add(require('ss-compass'));
+// use the stylus formatter
+ss.client.formatters.add(require('ss-stylus'));
 
 // use the hogan templating engine
 ss.client.templateEngine.use(require('ss-hogan'));
