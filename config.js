@@ -24,8 +24,7 @@ module.exports = new Settings({
       salt: 'mOYjKEw8LXPx5GLI8/wdNpWAW++ZDTxXaNJ5Q8cK'
     },
     server: {
-      host: 'localhost',
-      port: 3000
+      host: 'localhost'
     },
     timer: {
       days: [1,2,3,4,5],
@@ -39,9 +38,6 @@ module.exports = new Settings({
   production: {
     repl: {
       port: 5001
-    },
-    server: {
-      port: 3001
     }
   }
 });

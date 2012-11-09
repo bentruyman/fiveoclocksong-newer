@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-// FIVEOCLOCKSONG - Master
+// FIVEOCLOCKSONG - Manager
 ////////////////////////////////////////////////////////////////////////////////
 
 var http = require('http'),
@@ -7,7 +7,7 @@ var http = require('http'),
     config = require('./config'),
     pollService = require('./server/services/poll'),
     pollTimer = require('./server/lib/poll-timer').createTimer(),
-    server;
+    consoleServer, server;
 
 // use redis for pubsub transport
 ss.publish.transport.use('redis', {
@@ -46,9 +46,13 @@ pollTimer.on('pollstop', function () {
   ss.api.publish.all('/poll/stop');
 });
 
+// create the console server
+consoleServer = require('ss-console')(ss);
+consoleServer.listen(config.repl.port);
+
 // create the web server
 server = http.Server(ss.http.middleware);
-server.listen(4000);
+server.listen(parseInt(process.argv.slice(-1), 10));
 
 // start socketstream
 ss.start(server);

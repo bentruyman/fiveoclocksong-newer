@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
-// FIVEOCLOCKSONG - Slave
+// FIVEOCLOCKSONG - Worker
 ////////////////////////////////////////////////////////////////////////////////
 
 var http = require('http'),
     ss = require('socketstream'),
     config = require('./config'),
-    server;
+    server, port;
 
 // define a single-page client called 'main'
 ss.client.define('main', {
@@ -41,7 +41,7 @@ if (ss.env === 'production') {
 
 // create the web server
 server = http.Server(ss.http.middleware);
-server.listen(process.argv[2] || config.server.port);
+server.listen(parseInt(process.argv.slice(-1), 10));
 
 // start socketstream
 ss.start(server);
