@@ -6,7 +6,8 @@ module.exports = new Settings({
       tracksPerPoll: 5
     },
     ldap: {
-      url: 'ldap://10.98.4.38:389'
+      // url: 'ldap://10.98.4.38:389' // inside
+      url: 'ldap://bison.cmass.criticalmass.com:3268' // vpn
     },
     rdio: {
       key: 'rbz4ghf2kekn8h6pyeftgure',
