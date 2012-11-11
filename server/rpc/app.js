@@ -13,8 +13,11 @@ module.exports.actions = function (req, res, ss) {
           req.session.username = user.name;
           
           req.session.save(function (err) {
+            var sesh = formatSession(req.session);
+            
             if (!err) {
-              res(user);
+              ss.publish.user(req.session.userId, '/login', sesh);
+              res(sesh);
             } else {
               res(false);
             }
