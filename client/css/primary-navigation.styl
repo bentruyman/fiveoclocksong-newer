@@ -1,0 +1,40 @@
+// primary navigation
+#primary-navigation
+  ul
+    float: right
+  li
+    float: left
+    margin: 0 15px
+    &:first-child
+      margin-left: 0
+    &:last-child
+      margin-right: 0
+  a
+    font-size: 16px
+    font-weight: bold
+    line-height: 40px
+    text-decoration: none
+    text-shadow: 1px 1px 0 #000
+    &:hover
+      border-bottom: 1px solid #fff
+  // phone
+  @media only screen and (max-width: 767px)
+    link-bg = rgba(0, 0, 0, 0.25)
+    
+    margin-top: 10px
+    ul
+      float: none
+    li
+      margin: 0
+      width: 25%
+      a
+        background-color: link-bg
+        border-left: 1px solid #444
+        box-sizing: border-box
+        display: block
+        font-size: 12px
+        text-align: center
+        width: 100%
+        &:hover
+          background-color: lighten(link-bg, 10%)
+          border-bottom: 0

@@ -8,14 +8,21 @@
   </head>
   <body id="fiveoclocksong">
     <header id="page-header">
-      <div id="user-status" class="container">
-        <div class="row">
-          <div class="twentyfour colums"></div>
+      <div id="user-status">
+        <div class="container">
+          <div class="row">
+            <dl id="user-status-info" class="twentyfour colums">
+              <dt>Username</dt>
+              <dd>bent</dd>
+              <dt>Votes left</dt>
+              <dd>20</dd>
+            </dl>
+          </div>
         </div>
       </div>
       <div class="container">
         <div class="row">
-          <!-- <h1 class="twelve colums"><a href="/">fiveoclocksong</a></h1> -->
+          <h1 class="twelve columns"><a href="/">fiveoclocksong</a></h1>
           <nav id="primary-navigation" class="twelve colums">
             <ul>
               <li><a href="/login">login</a></li>
@@ -28,25 +35,129 @@
       </div>
     </header>
     <div id="page-body" class="container">
-      <div id="poll"></div>
-      <div id="winner"></div>
+      <div class="row">
+        <div class="twentyfour columns">
+          <section id="poll">
+            <article class="track row">
+              <div class="vote-controls track-section">
+                <button class="vote-control upvote active">+</button>
+                <button class="vote-control downvote">-</button>
+              </div>
+              <div class="playback-controls track-section show-on-desktops">
+                <button class="play playback-control">Play</button>
+                <button class="pause playback-control">Pause</button>
+              </div>
+              <div class="track-info track-section">
+                <h2 class="track-name" title="song name ipsum">song name ipsum</h2>
+                <h3 class="track-artist" title="artist name">artist name</h3>
+              </div>
+              <div class="vote-count track-section">
+                2000
+              </div>
+            </article>
+            <article class="track row">
+              <div class="vote-controls track-section">
+                <button class="vote-control upvote active">+</button>
+                <button class="vote-control downvote">-</button>
+              </div>
+              <div class="playback-controls track-section show-on-desktops">
+                <button class="play playback-control">Play</button>
+                <button class="pause playback-control">Pause</button>
+              </div>
+              <div class="track-info track-section">
+                <h2 class="track-name" title="song name ipsum">song name ipsum</h2>
+                <h3 class="track-artist" title="artist name">artist name</h3>
+              </div>
+              <div class="vote-count track-section">
+                2000
+              </div>
+            </article>
+            <article class="track row">
+              <div class="vote-controls track-section">
+                <button class="vote-control upvote active">+</button>
+                <button class="vote-control downvote">-</button>
+              </div>
+              <div class="playback-controls track-section show-on-desktops">
+                <button class="play playback-control">Play</button>
+                <button class="pause playback-control">Pause</button>
+              </div>
+              <div class="track-info track-section">
+                <h2 class="track-name" title="song name ipsum">song name ipsum</h2>
+                <h3 class="track-artist" title="artist name">artist name</h3>
+              </div>
+              <div class="vote-count track-section">
+                2000
+              </div>
+            </article>
+            <article class="track row">
+              <div class="vote-controls track-section">
+                <button class="vote-control upvote active">+</button>
+                <button class="vote-control downvote">-</button>
+              </div>
+              <div class="playback-controls track-section show-on-desktops">
+                <button class="play playback-control">Play</button>
+                <button class="pause playback-control">Pause</button>
+              </div>
+              <div class="track-info track-section">
+                <h2 class="track-name" title="song name ipsum">song name ipsum</h2>
+                <h3 class="track-artist" title="artist name">artist name</h3>
+              </div>
+              <div class="vote-count track-section">
+                2000
+              </div>
+            </article>
+            <article class="track row">
+              <div class="vote-controls track-section">
+                <button class="vote-control upvote active">+</button>
+                <button class="vote-control downvote">-</button>
+              </div>
+              <div class="playback-controls track-section show-on-desktops">
+                <button class="play playback-control">Play</button>
+                <button class="pause playback-control">Pause</button>
+              </div>
+              <div class="track-info track-section">
+                <h2 class="track-name" title="song name ipsum">song name ipsum</h2>
+                <h3 class="track-artist" title="artist name">artist name</h3>
+              </div>
+              <div class="vote-count track-section">
+                2000
+              </div>
+            </article>
+          </section>
+          <section id="winner"></section>
+        </div>
+      </div>
     </div>
     <footer id="page-footer">
-      <div class="container">
-        <div class="row">
-          <div id="site-info" class="twentyfour columns"></div>
-          <p id="system"><b>powered by: </b><a href="http://expressjs.com/">express</a>, <a href="http://faye.jcoglan.com/">faye</a>, <a href="http://couchdb.apache.org/">couchdb</a> and <a href="http://www.rdio.com/">rdio</a>
-          </p>
-          <p id="rdio"><a href="http://www.rdio.com/accounts/login/" class="button external">login to rdio</a></p>
+      <div id="site-info">
+        <div class="container">
+          <div class="row">
+            <div class="twelve columns">
+              <p id="system">
+                <b>powered by: </b>
+                <a href="http://expressjs.com/">express</a>,
+                <a href="http://faye.jcoglan.com/">faye</a>,
+                <a href="http://couchdb.apache.org/">couchdb</a> and
+                <a href="http://www.rdio.com/">rdio</a>
+              </p>
+            </div>
+            <div class="twelve columns">
+              <p id="rdio">
+                <a href="http://www.rdio.com/accounts/login/" class="button external">
+                  login to rdio
+                </a>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
       <div id="chatroom" class="chatroom">
         <div class="container">
           <div class="row">
-            <div class="chatroom-messages twentyfour columns"></div>
-          </div>
-          <div class="row">
-            <input class="chatroom-input twentyfour columns"/>
+            <div class="twentyfour columns">
+              <div id="chatroom-messages"></div>
+              <input id="chatroom-input">
+            </div>
           </div>
         </div>
       </div>

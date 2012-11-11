@@ -1,0 +1,49 @@
+// variables
+bg = #222222
+fg = #fafafa
+
+// mixins
+standard-text-shadow()
+  text-shadow: 2px 2px 0 #000
+
+// base
+::selection
+  background: rgba(0, 0, 0, 0.45)
+
+html
+  background-color: bg
+
+body
+  background: linear-gradient(lighten(bg, 20%), bg)
+  background: url("/images/ui/noise.png"), linear-gradient(top, lighten(bg, 20%), bg)
+  color: fg
+  font-family: "helvetica neue", helvetica, arial, sans-serif
+  min-height: 1000px
+  -webkit-font-smoothing: antialiased
+
+a
+  color: fg
+
+h1
+  font-size 36px
+  line-height: 1em
+  margin: 0
+  a
+    text-decoration: none
+    standard-text-shadow()
+
+#page-header
+  // display: none
+  margin-bottom: 30px
+
+#page-footer
+  // display: none
+
+// phone
+@media only screen and (max-width: 767px)
+  html
+    min-width: 320px
+  h1
+    text-align: center
+  #page-header
+    margin-bottom: 20px

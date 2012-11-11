@@ -1,0 +1,151 @@
+// poll
+#poll
+  track-height = 132px
+  bg-color = #595959
+  outset-color = #404040
+  inset-color = #808080
+  radius-size = 20px
+  bg-normal()
+    background: bg-color
+    background: url("/images/ui/noise.png"), linear-gradient(lighten(bg-color, 20%), darken(bg-color, 5%))
+  bg-invert()
+    background: bg-color
+    background: url("/images/ui/noise.png"), linear-gradient(darken(bg-color, 5%), lighten(bg-color, 20%))
+  
+  min-height: 450px
+  .track
+    bg-normal()
+    border-bottom: 1px solid outset-color
+    border-top:    1px solid inset-color
+    height: track-height
+    &:first-child
+      border-radius: radius-size radius-size 0 0
+      overflow: hidden
+      > :first-child
+        border-top-left-radius: radius-size
+    &:last-child
+      border-radius: 0 0 radius-size radius-size
+      overflow: hidden
+      > :first-child
+        border-bottom-left-radius: radius-size
+    .track-section
+      border-right: 1px solid outset-color
+      border-left:  1px solid inset-color
+      box-sizing: border-box
+      float: left
+      height: 100%
+      margin-right: -2px
+    .vote-controls
+      width: 80px
+    .vote-control
+      bg-normal()
+      border: 0
+      color: #aaa
+      font-size: 32px
+      font-weight: bold
+      height: 50%
+      padding: 0
+      width: 100%
+      &:active
+        bg-invert()
+    .upvote
+      text-color = #8aff80
+      border-bottom: 1px solid outset-color
+      &.active
+        color: text-color
+        text-shadow: 0 0 10px rgba(text-color, 0.5)
+    .downvote
+      text-color = #ff8080
+      border-top: 1px solid inset-color
+      &.active
+        color: text-color
+        text-shadow: 0 0 10px rgba(text-color, 0.5)
+    .playback-controls
+      width: 150px
+    .playback-control
+      background: transparent
+      border: 0
+      height: 100%
+      width: 100%
+      &:active
+        bg-invert()
+    .play
+      // nothing
+    .pause
+      display: none
+    .track-info
+      width: 588px
+      padding: 20px
+      .track-name,
+      .track-artist
+        margin: 0
+        text-shadow: 0 -1px 0 #000
+      .track-name
+        font-size: 36px
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
+      .track-artist
+        font-size: 24px
+    .vote-count
+      font-size: 60px
+      font-weight: bold
+      line-height: track-height
+      standard-text-shadow()
+      text-align: center
+      width: 150px
+    // wide screen
+    @media only screen and (min-width: 1196px)
+      .vote-controls
+        // nothing
+      .playback-controls
+        // nothing
+      .track-info
+        width: 804px
+      .vote-count
+        // nothing
+    // tablet
+    @media (max-width: 979px) and (min-width: 768px)
+      track-height = 100px
+      
+      height: track-height
+      .vote-controls
+        // nothing
+      .playback-controls
+        // hidden
+      .track-info
+        width: 546px
+        padding: 18px 20px
+        .track-name
+          font-size: 27px
+        .track-artist
+          font-size: 18px
+      .vote-count
+        font-size: 40px
+        line-height: track-height
+        width: 100px
+    // phone
+    @media only screen and (max-width: 767px)
+      track-height = 88px
+      
+      height: track-height
+      &:first-child,
+      &:last-child
+        border-radius: 0
+      .track-section
+        margin-right: 0
+      .vote-controls
+        width: 20%
+      .playback-controls
+        // hidden
+      .track-info
+        width: 60%
+        padding: 20px 10px
+        .track-name
+          font-size: 20px
+        .track-artist
+          font-size: 13px
+      .vote-count
+        font-size: 20px
+        line-height: track-height
+        width: 20%
