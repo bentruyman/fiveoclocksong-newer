@@ -1102,6 +1102,13 @@ tbody {
     margin: 0;
   }
   
+  .column,
+  .columns {
+    padding-left: 0;
+    padding-right: 0;
+    float: none;
+  }
+  
   .row .offset-by-one, .row .offset-by-one:first-child,
   .row .offset-by-two, .row .offset-by-two:first-child,
   .row .offset-by-three, .row .offset-by-three:first-child,
