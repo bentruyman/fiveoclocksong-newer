@@ -1098,10 +1098,6 @@ tbody {
 
 @media only screen and (max-width: 767px) {
   
-  html {
-    padding: 0 20px;
-  }
-  
   .row .row {
     margin: 0;
   }
