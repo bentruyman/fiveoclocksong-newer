@@ -14,9 +14,16 @@
 #chatroom-messages
   box-sizing: border-box
   height: 280px
+  overflow: auto
   position: absolute
   top: 20px
   width: 100%
+  .message-timestamp
+    color: #666
+  .message-username
+    font-weight: bold
+  .message-contents
+    // nothing
 
 #chatroom-input
   background-color: #2c2c2c
@@ -24,8 +31,11 @@
   border-radius: 10px
   box-sizing: border-box
   color: fg
+  display: none
   font-size: 12px
   padding: 5px 10px
   position: absolute
   top: 310px
   width: 100%
+  .logged-in &
+    display: block
