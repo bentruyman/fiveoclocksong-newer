@@ -7,10 +7,10 @@
   radius-size = 20px
   bg-normal()
     background: bg-color
-    background: url("/images/ui/noise.png"), linear-gradient(lighten(bg-color, 20%), darken(bg-color, 5%))
+    background: url("/images/ui/noise.png"), linear-gradient(lighten(bg-color, 15%), darken(bg-color, 5%))
   bg-invert()
     background: bg-color
-    background: url("/images/ui/noise.png"), linear-gradient(darken(bg-color, 5%), lighten(bg-color, 20%))
+    background: url("/images/ui/noise.png"), linear-gradient(darken(bg-color, 5%), lighten(bg-color, 15%))
   
   min-height: 450px
   .track
@@ -29,8 +29,8 @@
       > :first-child
         border-bottom-left-radius: radius-size
     .track-section
-      border-right: 1px solid outset-color
-      border-left:  1px solid inset-color
+      border-right: 1px solid inset-color
+      border-left:  1px solid outset-color
       box-sizing: border-box
       float: left
       height: 100%
