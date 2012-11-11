@@ -25,6 +25,8 @@ module.exports.actions = function (req, res, ss) {
       });
     },
     logout: function () {
+      ss.publish.user(req.session.userId, '/logout');
+      
       req.session.destroy(function (err) {
         if (!err) {
           res(true);
@@ -33,8 +35,15 @@ module.exports.actions = function (req, res, ss) {
         }
       });
     },
-    getSession: function () {
-      res(formatSession(req.session));
+    restoreSession: function () {
+      var sesh = formatSession(req.session);
+      
+      if (sesh) {
+        ss.publish.user(req.session.userId, '/login', sesh);
+        res(sesh);
+      } else {
+        res(false);
+      }
     }
   };
   

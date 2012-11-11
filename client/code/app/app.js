@@ -1,3 +1,3 @@
-ss.event.on('test', function (message) {
-  console.log('MESSAGE:', message);
-});
+require('./modules/user-status');
+
+ss.rpc('app.restoreSession');
