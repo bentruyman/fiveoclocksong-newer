@@ -1,14 +1,20 @@
 // poll
 #poll
   track-height = 132px
+  bg-color = #595959
   outset-color = #404040
   inset-color = #808080
   radius-size = 20px
+  bg-normal()
+    background: bg-color
+    background: url("/images/ui/noise.png"), linear-gradient(lighten(bg-color, 20%), darken(bg-color, 5%))
+  bg-invert()
+    background: bg-color
+    background: url("/images/ui/noise.png"), linear-gradient(darken(bg-color, 5%), lighten(bg-color, 20%))
   
   min-height: 450px
   .track
-    background: #595959
-    background: url("/images/ui/noise.png"), linear-gradient(#757575, #5e5e5e)
+    bg-normal()
     border-bottom: 1px solid outset-color
     border-top:    1px solid inset-color
     height: track-height
@@ -32,7 +38,7 @@
     .vote-controls
       width: 80px
     .vote-control
-      background: url("/images/ui/noise.png"), linear-gradient(#757575, #5e5e5e)
+      bg-normal()
       border: 0
       color: #aaa
       font-size: 32px
@@ -41,7 +47,7 @@
       padding: 0
       width: 100%
       &:active
-        background: url("/images/ui/noise.png"), linear-gradient(#5e5e5e, #757575)
+        bg-invert()
     .upvote
       text-color = #8aff80
       border-bottom: 1px solid outset-color
@@ -56,6 +62,17 @@
         text-shadow: 0 0 10px rgba(text-color, 0.5)
     .playback-controls
       width: 150px
+    .playback-control
+      background: transparent
+      border: 0
+      height: 100%
+      width: 100%
+      &:active
+        bg-invert()
+    .play
+      // 
+    .pause
+      display: none
     .track-info
       width: 588px
       padding: 20px
