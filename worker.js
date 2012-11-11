@@ -11,7 +11,7 @@ var http = require('http'),
 ss.client.define('main', {
   view: 'app.html',
   css:  ['libs/base.css', 'app.styl'],
-  code: ['libs/jquery.js', 'app'],
+  code: ['libs/jquery.js', 'libs/modernizr.custom.54241.js', 'app'],
   tmpl: '*'
 });
 
