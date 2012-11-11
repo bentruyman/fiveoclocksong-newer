@@ -31,6 +31,25 @@
       margin-right: -2px
     .vote-controls
       width: 80px
+    .vote-control
+      background: url("/images/ui/noise.png"), linear-gradient(#757575, #5e5e5e)
+      border: 0
+      font-size: 32px
+      font-weight: bold
+      height: 50%
+      width: 100%
+      &:active
+        background: url("/images/ui/noise.png"), linear-gradient(#5e5e5e, #757575)
+    .upvote
+      text-color = #8aff80
+      border-bottom: 1px solid outset-color
+      color: text-color
+      text-shadow: 0 0 10px rgba(text-color, 0.5)
+    .downvote
+      text-color = #ff8080
+      border-top: 1px solid inset-color
+      color: text-color
+      text-shadow: 0 0 10px rgba(text-color, 0.5)
     .playback-controls
       width: 150px
     .track-info
