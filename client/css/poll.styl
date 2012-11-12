@@ -18,14 +18,13 @@
     border-bottom: 1px solid outset-color
     border-top:    1px solid inset-color
     height: track-height
+    overflow: hidden
     &:first-child
       border-radius: radius-size radius-size 0 0
-      overflow: hidden
       > :first-child
         border-top-left-radius: radius-size
     &:last-child
       border-radius: 0 0 radius-size radius-size
-      overflow: hidden
       > :first-child
         border-bottom-left-radius: radius-size
     .track-section
