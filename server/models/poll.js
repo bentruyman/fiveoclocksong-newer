@@ -110,6 +110,8 @@ Poll.prototype.getTrackVotes = function (trackIndex, callback) {
   }
   
   client.hgetall(this._namespace + ':votes:' + trackIndex, function (err, votes) {
+    votes = votes || [];
+    
     if (err) {
       callback(err);
     } else {

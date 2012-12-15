@@ -15,9 +15,9 @@ module.exports.actions = function (req, res, ss) {
       });
     },
     today: function () {
-      res(todaysPoll);
+      rpc.get(Poll.createDateString(new Date));
     },
-    vote: function (trackIndex) {
+    upvote: function (trackIndex) {
       var poll;
       
       if ('username' in req.session) {
@@ -26,6 +26,7 @@ module.exports.actions = function (req, res, ss) {
           if (err) {
             res(false);
           } else {
+            ss.publish.all('/poll/upvote', trackIndex);
             res(true);
           }
         });
@@ -33,7 +34,7 @@ module.exports.actions = function (req, res, ss) {
         res(false);
       }
     },
-    unvote: function (trackIndex) {
+    downvote: function (trackIndex) {
       var poll;
       
       if ('username' in req.session) {
@@ -42,6 +43,7 @@ module.exports.actions = function (req, res, ss) {
           if (err) {
             res(false);
           } else {
+            ss.publish.all('/poll/downvote', trackIndex);
             res(true);
           }
         });
