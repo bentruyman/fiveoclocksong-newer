@@ -9,7 +9,5 @@ ss.server.on('reconnect', function () {
 });
 
 ss.server.on('ready', function () {
-  $(function(){
-    require('/app');
-  });
+  require('/app');
 });

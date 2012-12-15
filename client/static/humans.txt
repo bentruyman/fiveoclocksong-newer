@@ -1,0 +1,6 @@
+/* humanstxt.org */
+
+/* SITE */
+  Standards: HTML5, CSS3, ES5
+  Components: Foundation, jQuery, Redis, Reveal, Rdio, SocketStream
+  Software: Git, SublimeText 2
