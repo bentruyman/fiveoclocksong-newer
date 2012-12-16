@@ -1,15 +1,21 @@
 <article class="track row" data-key="{{key}}">
-  <div class="vote-controls track-section">
-    <button class="vote-control upvote active">+</button>
-    <button class="vote-control downvote active">-</button>
+  <div class="vote-controls track-section one column">
+    <div class="row">
+      <button class="vote-control upvote active sixteen column">+</button>
+    </div>
+    <div class="row">
+      <button class="vote-control downvote active sixteen column">-</button>
+    </div>
   </div>
-  <div class="playback-controls track-section show-on-desktops">
-    <button class="play playback-control">Play</button>
-    <button class="pause playback-control">Pause</button>
+  <div class="playback-controls track-section two columns">
+    <div class="row">
+      <button class="play playback-control sixteen columns">Play</button>
+      <button class="pause playback-control sixteen columns">Pause</button>
+    </div>
   </div>
-  <div class="track-info track-section">
+  <div class="track-info track-section eleven columns">
     <h2 class="track-name" title="song name ipsum">{{name}}</h2>
     <h3 class="track-artist" title="artist name">{{artist}}</h3>
   </div>
-  <div class="vote-count track-section"></div>
+  <div class="vote-count track-section two columns"></div>
 </article>

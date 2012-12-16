@@ -10,8 +10,22 @@ var http = require('http'),
 // define a single-page client called 'main'
 ss.client.define('main', {
   view: 'app.html',
-  css:  ['libs/base.css', 'app.styl'],
-  code: ['libs/jquery.js', 'libs/modernizr.custom.54241.js', 'app'],
+  css:  [
+    'libs/foundation.css',
+    'app.styl'
+  ],
+  code: [
+    'libs/jquery.js',
+    'libs/modernizr.foundation.js',
+    'libs/jquery.foundation.mediaQueryToggle.js',
+    'libs/jquery.foundation.forms.js',
+    'libs/jquery.foundation.tooltips.js',
+    'libs/jquery.foundation.accordion.js',
+    'libs/jquery.placeholder.js',
+    'libs/jquery.foundation.alerts.js',
+    'libs/foundation.js',
+    'app'
+  ],
   tmpl: '*'
 });
 

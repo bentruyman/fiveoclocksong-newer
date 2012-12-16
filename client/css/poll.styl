@@ -19,32 +19,20 @@
     border-top:    1px solid inset-color
     height: track-height
     overflow: hidden
-    &:first-child
-      border-radius: radius-size radius-size 0 0
-      > :first-child
-        border-top-left-radius: radius-size
-    &:last-child
-      border-radius: 0 0 radius-size radius-size
-      > :first-child
-        border-bottom-left-radius: radius-size
     .track-section
       border-right: 1px solid inset-color
       border-left:  1px solid outset-color
-      box-sizing: border-box
-      float: left
-      height: 100%
-      margin-right: -2px
+      height: track-height
     .vote-controls
-      width: 80px
+      // nothing
     .vote-control
       bg-normal()
       border: 0
       color: #aaa
       font-size: 32px
       font-weight: bold
-      height: 50%
+      height: (track-height / 2)
       padding: 0
-      width: 100%
       &:active
         bg-invert()
     .upvote
@@ -60,12 +48,11 @@
         color: text-color
         text-shadow: 0 0 10px rgba(text-color, 0.5)
     .playback-controls
-      width: 150px
+      // nothing
     .playback-control
       background: transparent
       border: 0
-      height: 100%
-      width: 100%
+      height: track-height
       &:active
         bg-invert()
     .play
@@ -73,8 +60,7 @@
     .pause
       display: none
     .track-info
-      width: 588px
-      padding: 20px
+      // padding: 20px
       .track-name,
       .track-artist
         margin: 0
@@ -92,7 +78,6 @@
       line-height: track-height
       standard-text-shadow()
       text-align: center
-      width: 150px
     // wide screen
     @media only screen and (min-width: 1196px)
       .vote-controls
@@ -100,7 +85,7 @@
       .playback-controls
         // nothing
       .track-info
-        width: 804px
+        // nothing
       .vote-count
         // nothing
     // tablet
@@ -113,7 +98,6 @@
       .playback-controls
         // hidden
       .track-info
-        width: 546px
         padding: 18px 20px
         .track-name
           font-size: 27px
@@ -122,23 +106,18 @@
       .vote-count
         font-size: 40px
         line-height: track-height
-        width: 100px
     // phone
     @media only screen and (max-width: 767px)
       track-height = 88px
       
       height: track-height
-      &:first-child,
-      &:last-child
-        border-radius: 0
       .track-section
         margin-right: 0
       .vote-controls
-        width: 20%
+        // nothing
       .playback-controls
         // hidden
       .track-info
-        width: 60%
         padding: 20px 10px
         .track-name
           font-size: 20px
@@ -147,4 +126,3 @@
       .vote-count
         font-size: 20px
         line-height: track-height
-        width: 20%
