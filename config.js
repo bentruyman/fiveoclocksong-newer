@@ -9,6 +9,11 @@ module.exports = new Settings({
       // url: 'ldap://10.98.4.38:389' // inside
       url: 'ldap://bison.cmass.criticalmass.com:3268' // vpn
     },
+    mongodb: {
+      host: '127.0.0.1',
+      port: '27017',
+      db: 'fiveoclocksong'
+    },
     rdio: {
       key: 'rbz4ghf2kekn8h6pyeftgure',
       secret: 'DbCSQXgrc5',
@@ -16,7 +21,8 @@ module.exports = new Settings({
     },
     redis: {
       host: '127.0.0.1',
-      port: 6379
+      port: 6379,
+      prefix: 'fiveoclocksong'
     },
     repl: {
       port: 5000
