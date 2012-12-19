@@ -1,12 +1,15 @@
-var Poll = require('../models/poll'),
-    pollService = require('../services/poll');
+var Poll = require('../models/poll');
 
 module.exports.actions = function (req, res, ss) {
   req.use('session');
   
+  function getTodays(callback) {
+    Poll.findOne({ date: Poll.today() }, callback);
+  }
+  
   var rpc = {
     get: function (dateString) {
-      pollService.getPoll(dateString, function (err, poll) {
+      Poll.findOne({ date: dateString }, function (err, poll) {
         if (err) {
           res(false);
         } else {
@@ -15,40 +18,49 @@ module.exports.actions = function (req, res, ss) {
       });
     },
     today: function () {
-      rpc.get(Poll.createDateString(new Date));
+      getTodays(function (err, poll) {
+        if (err) {
+          res(false);
+        } else {
+          res(poll);
+        }
+      })
     },
     upvote: function (trackIndex) {
-      var poll;
-      
       if ('username' in req.session) {
-        poll = getTodays();
-        poll.incrementVote(req.session.username, trackIndex, 1, function (err) {
-          if (err) {
-            res(false);
+        getTodays(function (err, poll) {
+          if (poll) {
+            poll.incrementVote(req.session.username, trackIndex, 1, function (err) {
+              if (err) {
+                res(false);
+              } else {
+                ss.publish.all('/poll/upvote', trackIndex);
+                res(true);
+              }
+            });
           } else {
-            ss.publish.all('/poll/upvote', trackIndex);
-            res(true);
+            res(false);
           }
         });
-      } else {
-        res(false);
       }
     },
+    
     downvote: function (trackIndex) {
-      var poll;
-      
       if ('username' in req.session) {
-        poll = getTodays();
-        poll.decrementVote(req.session.username, trackIndex, 1, function (err) {
-          if (err) {
-            res(false);
+        getTodays(function (err, poll) {
+          if (poll) {
+            poll.decrementVote(req.session.username, trackIndex, 1, function (err) {
+              if (err) {
+                res(false);
+              } else {
+                ss.publish.all('/poll/upvote', trackIndex);
+                res(true);
+              }
+            });
           } else {
-            ss.publish.all('/poll/downvote', trackIndex);
-            res(true);
+            res(false);
           }
         });
-      } else {
-        res(false);
       }
     }
   };

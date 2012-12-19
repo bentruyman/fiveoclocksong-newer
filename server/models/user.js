@@ -88,4 +88,14 @@ userSchema.methods.unachieve = function (name) {
   this.setAchievementState(name, false);
 };
 
+userSchema.statics.verifyCredentials = function (name, password, callback) {
+  if (password.length === 0) {
+    callback('No password specified');
+  } else {
+    ldapClient.bind(name + '@cmass.criticalmass.com', password, function (err, resp) {
+      callback(err);
+    });
+  }
+};
+
 module.exports = mongoClient.model('User', userSchema);

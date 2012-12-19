@@ -36,7 +36,7 @@ pollSchema.methods.getTrackVotes = function (trackIndex, callback) {
     return callback('Invalid arguments');
   }
   
-  redisClient.hgetall(namespace(redisPrefix, this.date, trackIndex), function (err, resp) {
+  redisClient.hgetall(namespace(redisPrefix, this.date, 'votes', trackIndex), function (err, resp) {
     if (err) {
       callback(err);
     } else {
@@ -121,5 +121,9 @@ pollSchema.statics.createDateString = function (d) {
   
   return [ d.getFullYear(), pad(d.getMonth() + 1), pad(d.getDate()) ].join('');
 };
+
+pollSchema.statics.today = function () {
+  return pollSchema.statics.createDateString(new Date);
+}
 
 module.exports = mongoClient.model('Poll', pollSchema);

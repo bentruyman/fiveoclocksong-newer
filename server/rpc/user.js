@@ -1,11 +1,11 @@
-var userService = require('../services/user');
+var User = require('../models/user');
 
 module.exports.actions = function (req, res, ss) {
   req.use('session');
   
   var rpc = {
-    get: function (username) {
-      userService.getUserByName(username, function (err, user) {
+    get: function (name) {
+      User.findOne({ name: name }, function (err, user) {
         if (err) {
           res(false);
         } else {

@@ -5,7 +5,7 @@
 var http = require('http'),
     ss = require('socketstream'),
     config = require('./config'),
-    pollService = require('./server/services/poll'),
+    Poll = require('./server/models/poll'),
     pollTimer = require('./server/lib/poll-timer').createTimer(),
     consoleServer, server;
 
@@ -19,25 +19,31 @@ ss.publish.transport.use('redis', {
 pollTimer.start();
 
 // check to see if today's poll already exists
-pollService.getTodaysPoll(function (err, poll) {
-  // if the poll doesn't exist, create it
-  if (poll.tracks.length === 0) {
-    pollService.createTodaysPoll(function (err, poll) {
-      if (err) {
-        throw err;
-      }
+Poll.findOne({ date: Poll.today() }, function (err, poll) {
+  if (poll === null) {
+    poll = new Poll({ date: Poll.today() });
+    poll.populateTracks(function (err, tracks) {
+      poll.save(function (err, resp) {
+        if (err) {
+          throw err;
+        }
+      });
     });
   }
 });
 
 // let all clients know when a new poll starts
 pollTimer.on('pollstart', function () {
-  pollService.createTodaysPoll(function (err, poll) {
-    if (err) {
-      throw err;
-    } else {
-      ss.api.publish.all('/poll/start', poll);
-    }
+  var poll = new Poll({ date: Poll.today() });
+  
+  poll.populateTracks(function (err, tracks) {
+    poll.save(function (err, resp) {
+      if (err) {
+        throw err;
+      } else {
+        ss.api.publish.all('/poll/start', poll);
+      }
+    });
   });
 });
 
