@@ -30,6 +30,8 @@ var pollSchema = new mongoose.Schema({
 pollSchema.methods.getTrackVotes = function (trackIndex, callback) {
   logger.debug('getting vote count for track ' + trackIndex);
   
+  // TODO: check to see if track index exists
+  
   try {
     check(trackIndex).isInt();
   } catch (e) {
@@ -40,13 +42,31 @@ pollSchema.methods.getTrackVotes = function (trackIndex, callback) {
     if (err) {
       callback(err);
     } else {
-      callback(null, resp);
+      callback(null, resp || {});
     }
   });
 };
 
 pollSchema.methods.getAllVotes = function (callback) {
+  var self = this,
+      promises = [];
   
+  if (this.tracks.length === 0) {
+    callback('Poll has no tracks. Has it not been loaded?');
+  } else {
+    this.tracks.forEach(function (id, index) {
+      promises.push(Q.nfcall(self.getTrackVotes, index));
+    });
+    
+    Q.all(promises).then(
+      function (votes) {
+        callback(null, votes);
+      },
+      function (err) {
+        callback(err);
+      }
+    );
+  }
 };
 
 pollSchema.methods.incrementVote = function (username, trackId, amount, callback) {

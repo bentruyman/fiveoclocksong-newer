@@ -1,12 +1,13 @@
 var container    = $('#poll')[0];
 
-ss.rpc('poll.today', function (poll) {
-  var tracks = poll.tracks;
+ss.rpc('poll.today', function (resp) {
+  var tracks = resp.poll.tracks,
+      votes  = resp.votes;
   
   tracks.forEach(function (t, index) {
     var $track = $(ss.tmpl.track.render(t));
     
-    $track.find('.vote-count').html(calculateVoteTotal(t.votes));
+    $track.find('.vote-count').html(calculateVoteTotal(votes[index]));
     
     $track.find('.upvote').on('click', function (event) {
       event.preventDefault();
@@ -36,10 +37,6 @@ ss.rpc('poll.today', function (poll) {
     $track.find('.vote-count').text(voteCount);
   });
 });
-
-function setVoteCount(amount) {
-  
-}
 
 function calculateVoteTotal(votes) {
   var voters = Object.keys(votes),
