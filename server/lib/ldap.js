@@ -1,3 +1,6 @@
+// TODO: Override client's bind method to allow for a more
+// reasonable/configurable timeout
+
 var ldap = require('ldapjs');
 
 var LDAPClient = function (endpoint) {
